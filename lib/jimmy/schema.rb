@@ -5,13 +5,7 @@ module Jimmy
     attr_accessor :name
 
     @argument_handlers = Hash.new { |hash, key| hash[key] = {} }
-
-    def self.create(*args, &block)
-      new(*args).tap do |schema|
-        schema.dsl.evaluate block if block
-      end
-    end
-
+    
     def self.set_argument_handler(schema_class, arg_class, handler)
       @argument_handlers[schema_class][arg_class] = handler
     end
@@ -47,7 +41,7 @@ module Jimmy
 
     private
 
-    def initialize(type, domain, *args)
+    def initialize(type, domain, *args, &block)
       @attrs  = {}
       @type   = type
       @domain = domain
@@ -64,6 +58,7 @@ module Jimmy
             dsl.evaluate handler, arg
         end
       end
+      dsl.evaluate block if block
     end
 
   end

@@ -32,7 +32,7 @@ module Jimmy
           handler = SchemaCreation.handlers[self.class]
           self.class.__send__ :define_method, method do |*inner_args, &inner_block|
             handler_args = handler && inner_args.shift(handler.arity - 1)
-            schema = Schema.create(method, domain, *inner_args, &inner_block)
+            schema = Schema.new(method, domain, *inner_args, &inner_block)
             instance_exec schema, *handler_args, &handler if handler
             schema.dsl
           end
