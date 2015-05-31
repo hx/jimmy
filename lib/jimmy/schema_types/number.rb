@@ -22,7 +22,7 @@ module Jimmy
       end
     end
 
-    serialize do |hash|
+    compile do |hash|
       hash.merge! camelize_attrs(%i[minimum maximum exclusive_minimum exclusive_maximum multiple_of])
     end
 

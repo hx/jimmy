@@ -23,7 +23,7 @@ module Jimmy
       (attrs[:properties] ||= {})[property_name] = schema
     end
 
-    serialize do |hash|
+    compile do |hash|
       (attrs[:properties] || {}).each do |key, value|
         collection, key =
             if key.is_a? Regexp
@@ -32,7 +32,7 @@ module Jimmy
               ['properties', key.to_s]
             end
         hash[collection] ||= {}
-        hash[collection][key] = serialize_schema(value)
+        hash[collection][key] = compile_schema(value)
       end
       hash['required'] = (attrs[:required] || []).to_a
       hash['additionalProperties'] = !!attrs[:additional_properties]

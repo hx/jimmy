@@ -27,8 +27,8 @@ module Jimmy
         SchemaTypes.nested_handlers[self] = handler
       end
 
-      def serialize(&handler)
-        SchemaTypes.serializers[self] = handler
+      def compile(&handler)
+        SchemaTypes.compilers[self] = handler
       end
 
     end
@@ -53,8 +53,8 @@ module Jimmy
         included_args.map { |arg| [arg.to_s.gsub(/_([a-z])/) { $1.upcase }, attrs[arg]] }.to_h
       end
 
-      def serialize_schema(schema)
-        schema.is_a?(Symbol) ? {'$ref' => "/types/#{schema}#"} : schema.serialize
+      def compile_schema(schema)
+        schema.is_a?(Symbol) ? {'$ref' => "/types/#{schema}#"} : schema.compile
       end
 
     end

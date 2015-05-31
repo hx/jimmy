@@ -15,13 +15,13 @@ module Jimmy
       (attrs[:items] ||= []) << schema
     end
 
-    serialize do |hash|
+    compile do |hash|
       hash.merge! camelize_attrs(%i[min_items max_items])
       items = attrs[:items] || []
       if items.length > 1
-        hash['items'] = {'anyOf' => items.map { |i| serialize_schema i }}
+        hash['items'] = {'anyOf' => items.map { |i| compile_schema i }}
       elsif items.length == 1
-        hash['items'] = serialize_schema(items.first)
+        hash['items'] = compile_schema(items.first)
       end
     end
 

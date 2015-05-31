@@ -10,7 +10,7 @@ module Jimmy
     trait(Fixnum) { |value| min_length value; max_length value }
     trait(Array) { |value| attrs[:enum] = value.map(&:to_s) }
 
-    serialize do |hash|
+    compile do |hash|
       hash.merge! camelize_attrs(%i[min_length max_length pattern enum])
     end
 

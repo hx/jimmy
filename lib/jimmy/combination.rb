@@ -15,8 +15,8 @@ module Jimmy
       instance_exec &types_proc
     end
 
-    def serialize
-      {"#{condition}Of" => map(&:serialize)}
+    def compile
+      {"#{condition}Of" => map(&:compile)}
     end
 
     SchemaCreation.apply_to(self) { |schema| push schema }

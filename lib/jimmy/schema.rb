@@ -26,22 +26,22 @@ module Jimmy
       result && result.last
     end
 
-    def serialize
-      serializer = nil
+    def compile
+      compiler = nil
       schema_class = SchemaTypes[type]
       until schema_class == SchemaType do
-        serializer ||= SchemaTypes.serializers[schema_class]
+        compiler ||= SchemaTypes.compilers[schema_class]
         schema_class = schema_class.superclass
       end
       {'type' => type.to_s}.tap do |hash|
-        dsl.evaluate serializer, hash if serializer
+        dsl.evaluate compiler, hash if compiler
       end
     end
 
     def to_h
       {}.tap do |hash|
         hash['$schema'] = "#{domain.root}/#{name}#" if name
-        hash.merge! serialize
+        hash.merge! compile
       end
     end
 

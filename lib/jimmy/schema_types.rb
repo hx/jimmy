@@ -9,14 +9,14 @@ module Jimmy
     @types = {}
     @dsls = {}
     @nested_handlers = {}
-    @serializers = {}
+    @compilers = {}
 
     class << self
       extend Forwardable
 
       delegate %i[each keys values key?] => :@types
 
-      attr_reader :dsls, :nested_handlers, :serializers
+      attr_reader :dsls, :nested_handlers, :compilers
 
       def [](type_name)
         @types[type_name]
