@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Jimmy::Schema do
   let :domain do
     Jimmy::Domain.new('https://example.kom').tap do |d|
-      d.import_path SPEC_ROOT + 'fixtures/schema'
+      d.import SPEC_ROOT + 'fixtures/schema'
     end
   end
 

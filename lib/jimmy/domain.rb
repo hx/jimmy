@@ -18,7 +18,7 @@ module Jimmy
       self
     end
 
-    def import_path(path)
+    def import(path)
       path = Pathname(path) unless path.is_a? Pathname
       @types = import_schemas(path + 'types', path).map { |k, v| [k.to_sym, v] }.to_h
       @schemas = import_schemas(path, path, 'types/')

@@ -11,7 +11,7 @@ describe Jimmy::Domain do
 
   context 'with an imported schema set' do
 
-    before { subject.import_path SPEC_ROOT + 'fixtures/schema' }
+    before { subject.import SPEC_ROOT + 'fixtures/schema' }
 
     it 'provides access to each schema' do
       expect(subject[:complex]).to be_a Jimmy::Schema
