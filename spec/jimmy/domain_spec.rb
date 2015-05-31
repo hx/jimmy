@@ -17,6 +17,23 @@ describe Jimmy::Domain do
       expect(subject[:complex]).to be_a Jimmy::Schema
     end
 
+    it 'allows access by symbol or string' do
+      expect(subject[:complex]).to be subject['complex']
+    end
+
+    describe '#export' do
+      it 'exports compiled schemas' do
+        subject.export TEMP_ROOT
+        complex_path = TEMP_ROOT + 'complex.json'
+        expect(complex_path).to exist
+        expect(JSON.parse complex_path.read).to eq subject[:complex].compile
+      end
+
+      it 'expects a path as its first argument' do
+        expect(subject.export).to raise_error /Please specify an export directory/
+      end
+    end
+
   end
 
 end

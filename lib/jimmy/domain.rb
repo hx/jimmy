@@ -28,6 +28,12 @@ module Jimmy
       @schemas[schema_name.to_s]
     end
 
+    def export(path)
+      path = Pathname(path) if path.is_a? String
+      raise 'Please specify an export directory' unless path.is_a? Pathname && path.directory? || !path.exist?
+      path.mkpath
+    end
+
     private
 
     def import_schemas(path, base_path, reject_prefix = nil)
