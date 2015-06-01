@@ -12,7 +12,8 @@ describe Jimmy::Schema do
     describe '#to_h' do
       it 'matches the expected output' do
         expected = {
-            '$schema'          => 'https://example.kom/integer.json#',
+            '$schema'          => 'http://json-schema.org/draft-04/schema#',
+            'id'               => 'https://example.kom/integer.json#',
             'type'             => 'integer',
             'maximum'          => 100,
             'exclusiveMaximum' => true
@@ -29,7 +30,8 @@ describe Jimmy::Schema do
     describe '#to_h' do
       it 'matches the expected output' do
         expected = {
-            '$schema'              => 'https://example.kom/complex.json#',
+            '$schema'              => 'http://json-schema.org/draft-04/schema#',
+            'id'                   => 'https://example.kom/complex.json#',
             'type'                 => 'object',
             'properties'           => {
                 'nothingRequired' => {
@@ -118,49 +120,51 @@ describe Jimmy::Schema do
     subject { domain[:city] }
     it 'matches the expected output' do
       expected = {
-          '$schema' => 'https://example.kom/city.json#',
-          'type' => 'object',
-          'properties' => {
-              'name' => {
-                  'type' => 'string',
+          '$schema'              => 'http://json-schema.org/draft-04/schema#',
+          'id'                   => 'https://example.kom/city.json#',
+          'type'                 => 'object',
+          'properties'           => {
+              'name'               => {
+                  'type'      => 'string',
                   'minLength' => 2
               },
-              'postcode' => {
-                  'type' => 'string',
+              'postcode'           => {
+                  'type'    => 'string',
                   'pattern' => '^\\d{4}$'
               },
-              'population' => { 'type' => 'integer' },
-              'location' => { '$ref' => '/types/geopoint.json#' },
-              'country' => { '$ref' => '/types/country_code.json#' },
+              'population'         => {'type' => 'integer'},
+              'location'           => {'$ref' => '/types/geopoint.json#'},
+              'country'            => {'$ref' => '/types/country_code.json#'},
               'points_of_interest' => {
-                  'type' => 'array',
+                  'type'  => 'array',
                   'items' => {
-                      'type' => 'object',
-                      'properties' => {
-                          'title' => {
-                              'type' => 'string',
+                      'type'                 => 'object',
+                      'properties'           => {
+                          'title'      => {
+                              'type'      => 'string',
                               'minLength' => 3,
                               'maxLength' => 149
                           },
                           'popularity' => {
-                              'type' => 'integer',
+                              'type'    => 'integer',
                               'minimum' => 1,
                               'maximum' => 5
                           },
-                          'location' => { '$ref' => '/types/geopoint.json#' },
-                          'featured' => { 'type' => 'boolean' }
+                          'location'   => {'$ref' => '/types/geopoint.json#'},
+                          'featured'   => {'type' => 'boolean'}
                       },
-                      'required' => %w(title),
+                      'required'             => %w(title),
                       'additionalProperties' => false
                   }
               },
-              'created_at' => { '$ref' => '/types/timestamp.json#' },
-              'updated_at' => { '$ref' => '/types/timestamp.json#' }
+              'created_at'         => {'$ref' => '/types/timestamp.json#'},
+              'updated_at'         => {'$ref' => '/types/timestamp.json#'}
           },
-          'required' => %w(name postcode population country points_of_interest created_at updated_at),
+          'required'             => %w(name postcode population country points_of_interest created_at updated_at),
           'additionalProperties' => false
       }
       expect(subject.to_h).to eq expected
     end
   end
+
 end

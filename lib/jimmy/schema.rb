@@ -32,9 +32,13 @@ module Jimmy
       end
     end
 
+    def url
+      "#{domain.root}/#{name}.json#"
+    end
+
     def to_h
-      {}.tap do |hash|
-        hash['$schema'] = "#{domain.root}/#{name}.json#" if name
+      {'$schema' => 'http://json-schema.org/draft-04/schema#'}.tap do |hash|
+        hash['id'] = url if name
         hash.merge! compile
       end
     end
