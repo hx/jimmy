@@ -1,5 +1,6 @@
 require 'uri'
 require 'pathname'
+require 'json'
 
 require_relative 'schema_creation'
 
@@ -28,10 +29,11 @@ module Jimmy
       @schemas[schema_name.to_s]
     end
 
-    def export(path)
+    def export(path = nil)
       path = Pathname(path) if path.is_a? String
-      raise 'Please specify an export directory' unless path.is_a? Pathname && path.directory? || !path.exist?
+      raise 'Please specify an export directory' unless path.is_a?(Pathname) && (path.directory? || !path.exist?)
       path.mkpath
+      @schemas.each { |name, schema| export_schema schema, path + "#{name.to_s}.json" }
     end
 
     private
@@ -48,6 +50,11 @@ module Jimmy
         result[base_name] = schema
       end
       result
+    end
+
+    def export_schema(schema, target_path)
+      target_path.parent.mkpath
+      target_path.write JSON.pretty_generate(schema.to_h)
     end
 
     SchemaCreation.apply_to self

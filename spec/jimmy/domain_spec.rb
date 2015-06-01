@@ -26,11 +26,11 @@ describe Jimmy::Domain do
         subject.export TEMP_ROOT
         complex_path = TEMP_ROOT + 'complex.json'
         expect(complex_path).to exist
-        expect(JSON.parse complex_path.read).to eq subject[:complex].compile
+        expect(JSON.parse complex_path.read).to eq subject[:complex].to_h
       end
 
       it 'expects a path as its first argument' do
-        expect(subject.export).to raise_error /Please specify an export directory/
+        expect { subject.export }.to raise_error /Please specify an export directory/
       end
     end
 
