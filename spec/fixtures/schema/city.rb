@@ -6,7 +6,7 @@ object do
   country_code :country
   array :points_of_interest do
     object do
-      string :title, 3..150
+      string :title, 3...150
       integer :popularity, 1..5
       geopoint :location
       boolean :featured
