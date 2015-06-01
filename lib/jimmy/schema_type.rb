@@ -54,7 +54,7 @@ module Jimmy
       end
 
       def compile_schema(schema)
-        schema.is_a?(Symbol) ? {'$ref' => "/types/#{schema}#"} : schema.compile
+        schema.is_a?(Symbol) ? {'$ref' => "/types/#{schema}.json#"} : schema.compile
       end
 
       def include(*partial_names)

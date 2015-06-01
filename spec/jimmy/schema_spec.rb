@@ -12,7 +12,7 @@ describe Jimmy::Schema do
     describe '#to_h' do
       it 'matches the expected output' do
         expected = {
-            '$schema'          => 'https://example.kom/integer#',
+            '$schema'          => 'https://example.kom/integer.json#',
             'type'             => 'integer',
             'maximum'          => 100,
             'exclusiveMaximum' => true
@@ -29,7 +29,7 @@ describe Jimmy::Schema do
     describe '#to_h' do
       it 'matches the expected output' do
         expected = {
-            '$schema'              => 'https://example.kom/complex#',
+            '$schema'              => 'https://example.kom/complex.json#',
             'type'                 => 'object',
             'properties'           => {
                 'nothingRequired' => {
@@ -102,7 +102,7 @@ describe Jimmy::Schema do
                         }
                     ]
                 },
-                'uniqueId'        => {'$ref' => '/types/uuid#'},
+                'uniqueId'        => {'$ref' => '/types/uuid.json#'},
                 'sixToTwelve'     => {'type' => 'integer', 'minimum' => 6, 'maximum' => 12}
             },
             'required'             => %w(withMax withMin withRange basicString),
@@ -118,7 +118,7 @@ describe Jimmy::Schema do
     subject { domain[:city] }
     it 'matches the expected output' do
       expected = {
-          '$schema' => 'https://example.kom/city#',
+          '$schema' => 'https://example.kom/city.json#',
           'type' => 'object',
           'properties' => {
               'name' => {
@@ -130,8 +130,8 @@ describe Jimmy::Schema do
                   'pattern' => '^\\d{4}$'
               },
               'population' => { 'type' => 'integer' },
-              'location' => { '$ref' => '/types/geopoint#' },
-              'country' => { '$ref' => '/types/country_code#' },
+              'location' => { '$ref' => '/types/geopoint.json#' },
+              'country' => { '$ref' => '/types/country_code.json#' },
               'points_of_interest' => {
                   'type' => 'array',
                   'items' => {
@@ -147,15 +147,15 @@ describe Jimmy::Schema do
                               'minimum' => 1,
                               'maximum' => 5
                           },
-                          'location' => { '$ref' => '/types/geopoint#' },
+                          'location' => { '$ref' => '/types/geopoint.json#' },
                           'featured' => { 'type' => 'boolean' }
                       },
                       'required' => %w(title),
                       'additionalProperties' => false
                   }
               },
-              'created_at' => { '$ref' => '/types/timestamp#' },
-              'updated_at' => { '$ref' => '/types/timestamp#' }
+              'created_at' => { '$ref' => '/types/timestamp.json#' },
+              'updated_at' => { '$ref' => '/types/timestamp.json#' }
           },
           'required' => %w(name postcode population country points_of_interest created_at updated_at),
           'additionalProperties' => false

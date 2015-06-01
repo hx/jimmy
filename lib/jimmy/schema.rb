@@ -34,7 +34,7 @@ module Jimmy
 
     def to_h
       {}.tap do |hash|
-        hash['$schema'] = "#{domain.root}/#{name}#" if name
+        hash['$schema'] = "#{domain.root}/#{name}.json#" if name
         hash.merge! compile
       end
     end
