@@ -43,6 +43,11 @@ module Jimmy
       end
     end
 
+    def validate(data)
+      errors = JSON::Validator.fully_validate(JSON::Validator.schema_for_uri(url).schema, data, errors_as_objects: true)
+      raise ValidationError.new(self, data, errors) unless errors.empty?
+    end
+
     private
 
     def initialize(type, domain, *args, &block)

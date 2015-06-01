@@ -1,6 +1,7 @@
 require 'uri'
 require 'pathname'
 require 'json'
+require 'json-schema'
 
 require_relative 'schema_creation'
 
@@ -10,9 +11,9 @@ module Jimmy
     attr_reader :root, :types, :partials
 
     def initialize(root)
-      @root = URI(root)
-      @schemas = {}
-      @types = {}
+      @root     = URI(root)
+      @schemas  = {}
+      @types    = {}
       @partials = {}
     end
 
@@ -46,6 +47,7 @@ module Jimmy
       raise 'Please specify an export directory' unless path.is_a?(Pathname) && (path.directory? || !path.exist?)
       path.mkpath
       @schemas.each { |name, schema| export_schema schema, path + "#{name.to_s}.json" }
+      @types.each   { |name, schema| export_schema schema, path + 'types' + "#{name.to_s}.json" }
     end
 
     private
@@ -60,6 +62,7 @@ module Jimmy
         if block.arity == 2
           schema = instance_eval(full_path.read, full_path.to_s).schema
           schema.name = full_path.relative_path_from(base_path).to_s[0..-4]
+          JSON::Validator.add_schema JSON::Schema.new(schema.to_h, nil)
           args << schema
         end
         yield *args

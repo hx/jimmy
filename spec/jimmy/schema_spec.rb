@@ -165,6 +165,47 @@ describe Jimmy::Schema do
       }
       expect(subject.to_h).to eq expected
     end
+
+    describe 'validation' do
+
+      let(:valid_schema) { {
+          'name'               => 'Sydney',
+          'postcode'           => '2000',
+          'population'         => 5000000,
+          'location'           => {'latitude' => -33.8271, 'longitude' => 151.2733},
+          'country'            => 'AU',
+          'points_of_interest' => [
+              {
+                  'title'      => 'Port Jackson',
+                  'popularity' => 3,
+                  'location'   => {'latitude' => -33.8271, 'longitude' => 151.2733},
+                  'featured'   => true
+              }
+          ],
+          'created_at'         => '2015-06-01T14:06:25+10:00',
+          'updated_at'         => '2015-06-01T14:06:26+10:00',
+      } }
+
+      let(:invalid_schema) { valid_schema.merge({'postcode' => 2000}) }
+
+      it 'validates a valid schema' do
+        expect { subject.validate valid_schema }.not_to raise_error
+      end
+
+      it 'raises on invalid schemas' do
+        expect { subject.validate invalid_schema }.to raise_error Jimmy::ValidationError do |exception|
+          expect(exception.schema).to be subject
+          expect(exception.data).to be invalid_schema
+          expect(exception.errors.length).to be 1
+
+          error = exception.errors.first
+          expect(error.property).to eq 'postcode'
+          expect(error.aspect).to match /type/i
+          expect(error.message).to match /\bstring\b/
+        end
+      end
+
+    end
   end
 
 end
