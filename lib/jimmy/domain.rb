@@ -23,11 +23,11 @@ module Jimmy
     def import(path)
       path = Pathname(path) unless path.is_a? Pathname
 
-      glob path + 'types', path do |name, schema|
+      glob path, only: 'types' do |name, schema|
         @types[name.to_sym] = schema
       end
 
-      glob path + 'partials', path do |name|
+      glob path, only: 'partials' do |name|
         partial_path = path + 'partials' + "#{name}.rb"
         @partials[name] = [partial_path.read, partial_path.to_s]
       end
@@ -50,12 +50,12 @@ module Jimmy
 
     private
 
-    def glob(path, base_path = nil, **options, &block)
-      base_path ||= path
-      Dir[path + '**/*.rb'].each do |full_path|
+    def glob(base_path, only: '.', ignore: nil, &block)
+      lookup_path = base_path + only
+      Dir[lookup_path + '**/*.rb'].each do |full_path|
         full_path = Pathname(full_path)
-        relative_path = full_path.relative_path_from(path)
-        next if options[:ignore] === relative_path.to_s
+        relative_path = full_path.relative_path_from(lookup_path)
+        next if ignore === relative_path.to_s
         args = [relative_path.to_s[0..-4]]
         if block.arity == 2
           schema = instance_eval(full_path.read, full_path.to_s).schema
