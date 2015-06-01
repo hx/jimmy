@@ -13,5 +13,6 @@ object do
       require :title
     end
   end
+  include :timestamps
   require all - :location
 end

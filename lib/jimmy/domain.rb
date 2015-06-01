@@ -7,12 +7,13 @@ require_relative 'schema_creation'
 module Jimmy
   class Domain
 
-    attr_reader :root, :types
+    attr_reader :root, :types, :partials
 
     def initialize(root)
       @root = URI(root)
       @schemas = {}
       @types = {}
+      @partials = {}
     end
 
     def domain
@@ -22,13 +23,16 @@ module Jimmy
     def import(path)
       path = Pathname(path) unless path.is_a? Pathname
 
-      types_path = path + 'types'
-      glob types_path, path do |name, schema|
+      glob path + 'types', path do |name, schema|
         @types[name.to_sym] = schema
       end
 
-      glob path do |name, schema|
-        next if name =~ %r`^(types|partials)/`
+      glob path + 'partials', path do |name|
+        partial_path = path + 'partials' + "#{name}.rb"
+        @partials[name] = [partial_path.read, partial_path.to_s]
+      end
+
+      glob path, ignore: %r`^(types|partials)/` do |name, schema|
         @schemas[name] = schema
       end
     end
@@ -46,11 +50,12 @@ module Jimmy
 
     private
 
-    def glob(path, base_path = nil, &block)
+    def glob(path, base_path = nil, **options, &block)
       base_path ||= path
       Dir[path + '**/*.rb'].each do |full_path|
         full_path = Pathname(full_path)
         relative_path = full_path.relative_path_from(path)
+        next if options[:ignore] === relative_path.to_s
         args = [relative_path.to_s[0..-4]]
         if block.arity == 2
           schema = instance_eval(full_path.read, full_path.to_s).schema

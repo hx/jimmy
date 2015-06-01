@@ -113,4 +113,54 @@ describe Jimmy::Schema do
     end
 
   end
+
+  describe 'city schema' do
+    subject { domain[:city] }
+    it 'matches the expected output' do
+      expected = {
+          '$schema' => 'https://example.kom/city#',
+          'type' => 'object',
+          'properties' => {
+              'name' => {
+                  'type' => 'string',
+                  'minLength' => 2
+              },
+              'postcode' => {
+                  'type' => 'string',
+                  'pattern' => '^\\d{4}$'
+              },
+              'population' => { 'type' => 'integer' },
+              'location' => { '$ref' => '/types/geopoint#' },
+              'country' => { '$ref' => '/types/country_code#' },
+              'points_of_interest' => {
+                  'type' => 'array',
+                  'items' => {
+                      'type' => 'object',
+                      'properties' => {
+                          'title' => {
+                              'type' => 'string',
+                              'minLength' => 3,
+                              'maxLength' => 149
+                          },
+                          'popularity' => {
+                              'type' => 'integer',
+                              'minimum' => 1,
+                              'maximum' => 5
+                          },
+                          'location' => { '$ref' => '/types/geopoint#' },
+                          'featured' => { 'type' => 'boolean' }
+                      },
+                      'required' => %w(title),
+                      'additionalProperties' => false
+                  }
+              },
+              'created_at' => { '$ref' => '/types/timestamp#' },
+              'updated_at' => { '$ref' => '/types/timestamp#' }
+          },
+          'required' => %w(name postcode population country points_of_interest created_at updated_at),
+          'additionalProperties' => false
+      }
+      expect(subject.to_h).to eq expected
+    end
+  end
 end
