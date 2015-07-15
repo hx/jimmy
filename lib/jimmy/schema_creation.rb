@@ -39,6 +39,8 @@ module Jimmy
           return __send__ method, *args, &block
         end
 
+        domain.autoload_type method
+
         if domain.types.key? method
           return instance_exec method, *args, &SchemaCreation.handlers[self.class]
         end

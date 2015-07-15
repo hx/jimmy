@@ -15,6 +15,7 @@ module Jimmy
       @schemas  = {}
       @types    = {}
       @partials = {}
+      @import_paths = []
     end
 
     def domain
@@ -23,6 +24,7 @@ module Jimmy
 
     def import(path)
       path = Pathname(path) unless path.is_a? Pathname
+      @import_paths << path unless @import_paths.include? path
 
       glob path, only: 'types' do |name, schema|
         @types[name.to_sym] = schema
@@ -36,6 +38,19 @@ module Jimmy
       glob path, ignore: %r`^(types|partials)/` do |name, schema|
         @schemas[name] = schema
       end
+    end
+
+    def autoload_type(name)
+      # TODO: protect from circular dependency
+      return if types.key? name
+      @import_paths.each do |import_path|
+        path = import_path + "types/#{name}.rb"
+        if path.file?
+          @types[name] = load_schema_from_path(path, name)
+          return true
+        end
+      end
+      false
     end
 
     def [](schema_name)
@@ -59,13 +74,15 @@ module Jimmy
         relative_path = full_path.relative_path_from(lookup_path)
         next if ignore === relative_path.to_s
         args = [relative_path.to_s[0..-4]]
-        if block.arity == 2
-          schema = instance_eval(full_path.read, full_path.to_s).schema
-          schema.name = full_path.relative_path_from(base_path).to_s[0..-4]
-          JSON::Validator.add_schema JSON::Schema.new(schema.to_h, nil)
-          args << schema
-        end
+        args << load_schema_from_path(full_path, full_path.relative_path_from(base_path).to_s[0..-4]) if block.arity == 2
         yield *args
+      end
+    end
+
+    def load_schema_from_path(path, name)
+      instance_eval(path.read, path.to_s).schema.tap do |schema|
+        schema.name = name.to_s
+        JSON::Validator.add_schema JSON::Schema.new(schema.to_h, nil)
       end
     end
 
