@@ -5,7 +5,7 @@ module Jimmy
   describe SchemaType::DSL do
 
     let(:domain) { Domain.new 'http://somewhere.kom' }
-    let(:schema) { Jimmy::Schema.new(:null, domain) }
+    let(:schema) { Jimmy::Schema.new(:null, domain, {}) }
     let(:dsl) { schema.dsl }
 
     describe 'initializer' do

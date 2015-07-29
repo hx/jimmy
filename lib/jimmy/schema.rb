@@ -50,7 +50,7 @@ module Jimmy
 
     private
 
-    def initialize(type, domain, *args, &block)
+    def initialize(type, domain, locals, *args, &block)
       @attrs  = {}
       @type   = type
       @domain = domain
@@ -67,7 +67,13 @@ module Jimmy
             dsl.evaluate handler, arg
         end
       end
-      dsl.evaluate block if block
+      if block
+        if dsl.respond_to? :with_locals
+          dsl.with_locals(locals) { dsl.evaluate block }
+        else
+          dsl.evaluate block
+        end
+      end
     end
 
   end

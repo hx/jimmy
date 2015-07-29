@@ -1,4 +1,6 @@
 object do
+  include :code, specifically: 7
+
   object :nothingRequired do
     number :a, 123
     string :b, %w[alpha bravo charlie]

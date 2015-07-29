@@ -59,8 +59,12 @@ module Jimmy
         schema.is_a?(Symbol) ? {'$ref' => "/types/#{schema}.json#"} : schema.compile
       end
 
-      def include(*partial_names)
-        partial_names.each { |name| instance_eval *domain.partials[name.to_s] }
+      def include(*partial_names, **locals)
+        partial_names.each do |name|
+          with_locals locals do
+            instance_eval *domain.partials[name.to_s]
+          end
+        end
       end
 
     end

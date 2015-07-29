@@ -34,6 +34,23 @@ describe Jimmy::Schema do
             'id'                   => 'https://example.kom/complex.json#',
             'type'                 => 'object',
             'properties'           => {
+                'id' => {'$ref' => '/types/uuid.json#'},
+                'references' => {
+                    'type' => 'object',
+                    'properties' => {
+                        'code' => {
+                            'oneOf' => [
+                                {'type' => 'null'},
+                                {
+                                    'type' => 'number',
+                                    'enum' => [7]
+                                }
+                            ]
+                        },
+                    },
+                    'required' => [],
+                    'additionalProperties' => false
+                },
                 'nothingRequired' => {
                     'type'                 => 'object',
                     'properties'           => {
