@@ -11,15 +11,17 @@ module Jimmy
         SchemaTypes.register self
       end
 
-      def trait(name_or_type, &handler)
-        case name_or_type
-          when Symbol
-            handler ||= proc { |value| attrs[name_or_type] = value }
-            self::DSL.__send__ :define_method, name_or_type, handler
-          when Class
-            Schema.set_argument_handler self, name_or_type, handler
-          else
-            raise 'Trait must be a Symbol or a Class'
+      def trait(*args, &handler)
+        args.each do |name_or_type|
+          case name_or_type
+            when Symbol
+              handler ||= proc { |value| attrs[name_or_type] = value }
+              self::DSL.__send__ :define_method, name_or_type, handler
+            when Class
+              Schema.set_argument_handler self, name_or_type, handler
+            else
+              raise 'Trait must be a Symbol or a Class'
+          end
         end
       end
 
