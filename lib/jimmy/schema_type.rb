@@ -62,9 +62,16 @@ module Jimmy
       def include(*partial_names, **locals)
         partial_names.each do |name|
           with_locals locals do
-            instance_eval *domain.partials[name.to_s]
+            evaluate_partial domain.partials[name.to_s]
           end
         end
+      end
+
+      private
+
+      # Minimize collisions with local scope (hence the weird name __args)
+      def evaluate_partial(__args)
+        instance_eval *__args
       end
 
     end

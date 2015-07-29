@@ -28,17 +28,16 @@ module Jimmy
       end
 
       def with_locals(**locals)
-        # TODO: validate locals
+        locals.each_key do |key|
+          raise "Local '#{key}' conflicts with an existing DSL method" if reserved? key
+        end
         original = locals
         @locals = original.merge(locals)
         yield.tap { @locals = original }
       end
 
       def respond_to_missing?(method, *)
-        locals.key?(method) ||
-            SchemaTypes.key?(method) ||
-            domain.types.key?(method) ||
-            super
+        locals.key?(method) || reserved?(method, false) || super
       end
 
       def method_missing(method, *args, &block)
@@ -62,6 +61,13 @@ module Jimmy
         end
 
         super method, *args, &block
+      end
+
+      private
+
+      def reserved?(key, all = true)
+        domain.autoload_type key
+        (all && respond_to?(key)) || SchemaTypes.key?(key) || domain.types.key?(key)
       end
 
     end
