@@ -9,7 +9,11 @@ module Jimmy
     trait(:<=) { |value| maximum value; attrs[:exclusive_maximum] = nil; self }
     trait(:>) { |value| minimum value; attrs[:exclusive_minimum] = true; self }
     trait(:>=) { |value| minimum value; attrs[:exclusive_minimum] = nil; self }
-    trait(Numeric) { |value| minimum value; maximum value }
+    trait(:enum) do |*values|
+      attrs[:enum] ||= []
+      attrs[:enum] |= values.flatten
+    end
+    trait(Numeric, Array) { |value| enum value }
     trait(Range) do |range|
       if range.first <= range.last
         minimum range.first
@@ -23,7 +27,7 @@ module Jimmy
     end
 
     compile do |hash|
-      hash.merge! camelize_attrs(%i[minimum maximum exclusive_minimum exclusive_maximum multiple_of])
+      hash.merge! camelize_attrs(%i[minimum maximum exclusive_minimum exclusive_maximum multiple_of enum])
     end
 
   end

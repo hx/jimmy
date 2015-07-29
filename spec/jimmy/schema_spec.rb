@@ -38,9 +38,8 @@ describe Jimmy::Schema do
                     'type'                 => 'object',
                     'properties'           => {
                         'a' => {
-                            'type'    => 'number',
-                            'minimum' => 123,
-                            'maximum' => 123
+                            'type' => 'number',
+                            'enum' => [123]
                         },
                         'b' => {
                             'type' => 'string',
@@ -93,6 +92,10 @@ describe Jimmy::Schema do
                             }
                         ]
                     }
+                },
+                'numberWithEnum'  => {
+                    'type' => 'number',
+                    'enum' => [29, 4, 84]
                 },
                 'nullOrNumber'    => {
                     'anyOf' => [

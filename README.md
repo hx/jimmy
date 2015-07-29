@@ -77,7 +77,7 @@ object do
   array :points_of_interest do
     object do
       string :title, 3..150
-      integer :popularity, 1..5
+      integer :popularity, [1, 3, 5, 7]
       geopoint :location
       boolean :featured
       require :title
@@ -123,8 +123,7 @@ Here's the full result (though we expect you get the gist of it by now):
           },
           "popularity": {
             "type": "integer",
-            "minimum": 1,
-            "maximum": 5
+            "enum": [1, 3, 5, 7]
           },
           "location": {
             "$ref": "/types/geopoint#"

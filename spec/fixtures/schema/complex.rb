@@ -25,6 +25,8 @@ object do
     number 0..255, multiple_of: 5
   end
 
+  number :numberWithEnum, 29, [4, 84]
+
   any_of :nullOrNumber do
     null
     integer < 13
