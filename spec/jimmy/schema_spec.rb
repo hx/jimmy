@@ -33,6 +33,9 @@ describe Jimmy::Schema do
             '$schema'              => 'http://json-schema.org/draft-04/schema#',
             'id'                   => 'https://example.kom/complex.json#',
             'type'                 => 'object',
+            'title'                => 'Complex',
+            'description'          => 'This is a complex schema example',
+            'foo'                  => 'bar',
             'properties'           => {
                 'id' => {'$ref' => '/types/uuid.json#'},
                 'references' => {

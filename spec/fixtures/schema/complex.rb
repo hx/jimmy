@@ -1,4 +1,9 @@
 object do
+  title 'Complex'
+  description 'This is a complex schema example'
+
+  set foo: 'bar'
+
   include :code, specifically: 7
 
   object :nothingRequired do

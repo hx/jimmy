@@ -36,11 +36,13 @@ module Jimmy
       "#{domain.root}/#{name}.json#"
     end
 
+    def hash
+      @hash ||= {'$schema' => 'http://json-schema.org/draft-04/schema#'}
+    end
+
     def to_h
-      {'$schema' => 'http://json-schema.org/draft-04/schema#'}.tap do |hash|
-        hash['id'] = url if name
-        hash.merge! compile
-      end
+      hash['id'] = url if name
+      hash.merge! compile
     end
 
     def validate(data)

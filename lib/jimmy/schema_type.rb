@@ -67,6 +67,12 @@ module Jimmy
         end
       end
 
+      def set(**values)
+        values.each { |k, v| schema.hash[k.to_s] = v }
+      end
+
+      %i[title description default].each { |k| define_method(k) { |v| set k => v } }
+
       private
 
       # Minimize collisions with local scope (hence the weird name __args)
