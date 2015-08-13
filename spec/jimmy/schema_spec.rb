@@ -36,6 +36,24 @@ describe Jimmy::Schema do
             'title'                => 'Complex',
             'description'          => 'This is a complex schema example',
             'foo'                  => 'bar',
+            'definitions'          => {
+                'subSchema' => {
+                    'type' => 'object',
+                    'properties' => {
+                        'id' => {'type' => 'string'}
+                    },
+                    'required' => [],
+                    'additionalProperties' => false
+                },
+                'inlineSubSchema' => {
+                    'type' => 'object',
+                    'properties' => {
+                        'id' => {'type' => 'integer'}
+                    },
+                    'required' => [],
+                    'additionalProperties' => false
+                }
+            },
             'properties'           => {
                 'id' => {'$ref' => '/types/uuid.json#'},
                 'references' => {

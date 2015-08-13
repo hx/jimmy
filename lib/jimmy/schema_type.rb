@@ -71,6 +71,14 @@ module Jimmy
         values.each { |k, v| schema.hash[k.to_s] = v }
       end
 
+      def definitions(&block)
+        schema.definitions.evaluate &block
+      end
+
+      def define(type, *args, &block)
+        definitions { __send__ type, *args, &block }
+      end
+
       %i[title description default].each { |k| define_method(k) { |v| set k => v } }
 
       private

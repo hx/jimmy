@@ -4,6 +4,16 @@ object do
 
   set foo: 'bar'
 
+  definitions do
+    object :subSchema do
+      string :id
+    end
+  end
+
+  define :object, :inlineSubSchema do
+    integer :id
+  end
+
   include :code, specifically: 7
 
   object :nothingRequired do

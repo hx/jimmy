@@ -28,12 +28,17 @@ module Jimmy
         schema_class = schema_class.superclass
       end
       {'type' => type.to_s}.tap do |hash|
+        hash['definitions'] = definitions.compile unless definitions.empty?
         dsl.evaluate compiler, hash if compiler
       end
     end
 
     def url
       "#{domain.root}/#{name}.json#"
+    end
+
+    def definitions
+      @definitions ||= Definitions.new(self)
     end
 
     def hash
