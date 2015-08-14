@@ -9,6 +9,8 @@ require_relative 'jimmy/symbol_array'
 
 require_relative 'jimmy/domain'
 require_relative 'jimmy/schema'
+require_relative 'jimmy/reference'
+require_relative 'jimmy/type_reference'
 require_relative 'jimmy/schema_creation'
 require_relative 'jimmy/schema_types'
 require_relative 'jimmy/schema_type'

@@ -19,9 +19,9 @@ module Jimmy
       hash.merge! camelize_attrs(%i[min_items max_items])
       items = attrs[:items] || []
       if items.length > 1
-        hash['items'] = {'anyOf' => items.map { |i| compile_schema i }}
+        hash['items'] = {'anyOf' => items.map(&:compile)}
       elsif items.length == 1
-        hash['items'] = compile_schema(items.first)
+        hash['items'] = items.first.compile
       end
     end
 

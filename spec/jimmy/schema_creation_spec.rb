@@ -41,7 +41,7 @@ module Jimmy
     it 'looks to the instance method :domain of the given class for resolving custom types' do
       sample_instance.even_positive :that_arg
 
-      expect(sample_instance.results).to eq %i(even_positive that_arg)
+      expect(sample_instance.results.last).to be :that_arg
     end
 
     it 'allows combinations' do
@@ -62,7 +62,8 @@ module Jimmy
       expect(num).to be_a Schema
       expect(num.type).to be :number
       expect(num.attrs).to eq minimum: 20, maximum: 85, exclusive_minimum: true, exclusive_maximum: true
-      expect(pos).to be :even_positive
+      expect(pos).to be_a Reference
+      expect(pos.uri).to eq '/types/even_positive.json#'
     end
 
   end

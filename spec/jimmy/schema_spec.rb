@@ -55,6 +55,12 @@ describe Jimmy::Schema do
                 }
             },
             'properties'           => {
+                'instanceOfSubSchema' => {
+                    '$ref' => '#/definitions/subSchema'
+                },
+                'instanceOfInlineSubSchema' => {
+                    '$ref' => '#/definitions/inlineSubSchema'
+                },
                 'id' => {'$ref' => '/types/uuid.json#'},
                 'references' => {
                     'type' => 'object',
@@ -122,6 +128,7 @@ describe Jimmy::Schema do
                     'items'    => {
                         'anyOf' => [
                             {'type' => 'null'},
+                            {'$ref' => '/here'},
                             {
                                 'type'       => 'number',
                                 'minimum'    => 0,

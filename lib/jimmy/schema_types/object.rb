@@ -32,7 +32,7 @@ module Jimmy
               ['properties', key.to_s]
             end
         hash[collection] ||= {}
-        hash[collection][key] = compile_schema(value)
+        hash[collection][key] = value.compile
       end
       hash['required'] = (attrs[:required] || []).to_a
       hash['additionalProperties'] = !!attrs[:additional_properties]

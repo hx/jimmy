@@ -55,10 +55,6 @@ module Jimmy
         included_args.map { |arg| [arg.to_s.gsub(/_([a-z])/) { $1.upcase }, attrs[arg]] }.to_h
       end
 
-      def compile_schema(schema)
-        schema.is_a?(Symbol) ? {'$ref' => "/types/#{schema}.json#"} : schema.compile
-      end
-
       def include(*partial_names, **locals)
         partial_names.each do |name|
           with_locals locals do
@@ -80,6 +76,23 @@ module Jimmy
       end
 
       %i[title description default].each { |k| define_method(k) { |v| set k => v } }
+
+      def ref(*args, uri)
+        handler = SchemaCreation.handlers[self.class]
+        instance_exec(Reference.new(uri), *args, &handler) if handler
+      end
+
+      def method_missing(name, *args, &block)
+        if schema.definitions[name]
+          ref *args, "#/definitions/#{name}"
+        else
+          super
+        end
+      end
+
+      def respond_to_missing?(name, *)
+        schema.definitions.key?(name) || super
+      end
 
       private
 

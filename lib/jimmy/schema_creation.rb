@@ -57,7 +57,7 @@ module Jimmy
         domain.autoload_type method
 
         if domain.types.key? method
-          return instance_exec method, *args, &SchemaCreation.handlers[self.class]
+          return instance_exec TypeReference.new(method), *args, &SchemaCreation.handlers[self.class]
         end
 
         super method, *args, &block

@@ -14,6 +14,10 @@ object do
     integer :id
   end
 
+  subSchema :instanceOfSubSchema
+
+  ref :instanceOfInlineSubSchema, '#/definitions/inlineSubSchema'
+
   include :code, specifically: 7
 
   object :nothingRequired do
@@ -39,6 +43,7 @@ object do
 
   array :nullsOrNumbers, 1..6 do
     null
+    ref '/here'
     number 0..255, multiple_of: 5
   end
 
