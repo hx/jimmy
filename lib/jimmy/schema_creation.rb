@@ -47,9 +47,15 @@ module Jimmy
           handler = SchemaCreation.handlers[self.class]
           self.class.__send__ :define_method, method do |*inner_args, &inner_block|
             handler_args = handler && inner_args.shift(handler.arity - 1)
-            schema = Schema.new(method, domain, locals, *inner_args, &inner_block)
-            instance_exec schema, *handler_args, &handler if handler
-            schema.dsl
+            child_schema = Schema.new(
+                method,
+                respond_to?(:schema) ? schema : domain,
+                locals,
+                *inner_args,
+                &inner_block
+            )
+            instance_exec child_schema, *handler_args, &handler if handler
+            child_schema.dsl
           end
           return __send__ method, *args, &block
         end

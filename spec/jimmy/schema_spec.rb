@@ -166,6 +166,7 @@ describe Jimmy::Schema do
                         'anyOf' => [
                             {'type' => 'null'},
                             {'$ref' => '/here'},
+                            {'$ref' => '#/definitions/subSchema'},
                             {
                                 'type'       => 'number',
                                 'minimum'    => 0,

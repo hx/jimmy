@@ -3,7 +3,7 @@ module Jimmy
     JSON_SCHEMA_URI       = 'http://json-schema.org/draft-04/schema#'
     JSON_HYPER_SCHEMA_URI = 'http://json-schema.org/draft-04/hyper-schema#'
 
-    attr_reader :dsl, :attrs, :domain, :type
+    attr_reader :dsl, :attrs, :domain, :type, :parent
     attr_accessor :name
 
     @argument_handlers = Hash.new { |hash, key| hash[key] = {} }
@@ -73,11 +73,12 @@ module Jimmy
       raise ValidationError.new(self, data, errors) unless errors.empty?
     end
 
-    def initialize(type, domain, locals, *args, &block)
+    def initialize(type, parent, locals, *args, &block)
       @attrs  = {}
       @type   = type
-      @domain = domain
+      @domain = parent.domain
       @dsl    = SchemaTypes.dsls[type].new(self)
+      @parent = parent if parent.is_a? self.class
       args.each do |arg|
         case arg
           when Symbol

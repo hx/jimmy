@@ -18,6 +18,10 @@ module Jimmy
       map { |k, v| [k.to_s, v.compile] }.to_h
     end
 
+    def [](key)
+      super || (schema.parent && schema.parent.definitions[key])
+    end
+
     SchemaCreation.apply_to(self) { |schema, name| self[name] = schema }
   end
 end

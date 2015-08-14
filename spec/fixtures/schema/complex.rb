@@ -61,6 +61,7 @@ object do
   array :nullsOrNumbers, 1..6 do
     null
     ref '/here'
+    subSchema
     number 0..255, multiple_of: 5
   end
 
