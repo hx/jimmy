@@ -63,10 +63,6 @@ module Jimmy
         end
       end
 
-      def set(**values)
-        values.each { |k, v| schema.data[k.to_s] = v }
-      end
-
       def definitions(&block)
         schema.definitions.evaluate &block
       end
@@ -75,7 +71,9 @@ module Jimmy
         definitions { __send__ type, *args, &block }
       end
 
-      %i[title description default].each { |k| define_method(k) { |v| set k => v } }
+      def data
+        schema.data
+      end
 
       def ref(*args, uri)
         handler = SchemaCreation.handlers[self.class]

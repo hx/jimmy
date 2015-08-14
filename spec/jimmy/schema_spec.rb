@@ -181,6 +181,7 @@ describe Jimmy::Schema do
                     'enum' => [29, 4, 84]
                 },
                 'nullOrNumber'    => {
+                    'description' => 'Null or number',
                     'anyOf' => [
                         {'type' => 'null'},
                         {

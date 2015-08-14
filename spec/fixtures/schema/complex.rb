@@ -68,6 +68,7 @@ object do
   number :numberWithEnum, 29, [4, 84]
 
   any_of :nullOrNumber do
+    description 'Null or number'
     null
     integer < 13
   end

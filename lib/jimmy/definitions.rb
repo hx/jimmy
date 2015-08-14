@@ -18,6 +18,10 @@ module Jimmy
       map { |k, v| [k.to_s, v.compile] }.to_h
     end
 
+    def data
+      schema.data
+    end
+
     def [](key)
       super || (schema.parent && schema.parent.definitions[key])
     end

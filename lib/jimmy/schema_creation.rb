@@ -11,17 +11,17 @@ module Jimmy
         @handlers[klass] = handler
         %i(one all any).each do |condition|
           klass.__send__ :define_method, :"#{condition}_of" do |*args, &inner_block|
-            Combination.new(condition, domain).tap do |combo|
+            Combination.new(condition, schema).tap do |combo|
               combo.with_locals(locals) { combo.evaluate inner_block }
               instance_exec combo, *args, &handler
             end
           end
         end
-        klass.include MissingMethods
+        klass.include DefiningMethods
       end
     end
 
-    module MissingMethods
+    module DefiningMethods
 
       def locals
         @locals ||= {}
@@ -39,6 +39,12 @@ module Jimmy
       def respond_to_missing?(method, *)
         locals.key?(method) || reserved?(method, false) || super
       end
+
+      def set(**values)
+        values.each { |k, v| data[k.to_s] = v }
+      end
+
+      %i[title description default].each { |k| define_method(k) { |v| set k => v } }
 
       def method_missing(method, *args, &block)
         return locals[method] if locals.key?(method)

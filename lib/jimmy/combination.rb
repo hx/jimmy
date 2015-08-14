@@ -3,12 +3,16 @@ require_relative 'schema_types'
 module Jimmy
   class Combination < Array
 
-    attr_reader :condition, :domain
+    attr_reader :condition, :schema
 
     # @param [Symbol] condition One of :one, :all, or :any
-    def initialize(condition, domain)
+    def initialize(condition, schema)
       @condition = condition
-      @domain = domain
+      @schema = schema
+    end
+
+    def domain
+      schema.domain
     end
 
     def evaluate(types_proc)
@@ -16,7 +20,11 @@ module Jimmy
     end
 
     def compile
-      {"#{condition}Of" => map(&:compile)}
+      data.merge "#{condition}Of" => map(&:compile)
+    end
+
+    def data
+      @data ||= {}
     end
 
     SchemaCreation.apply_to(self) { |schema| push schema }

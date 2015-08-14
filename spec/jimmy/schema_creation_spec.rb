@@ -11,6 +11,9 @@ module Jimmy
       def domain
         @domain ||= Domain.new('http://sample.kom')
       end
+      def schema
+        self # Something that has a domain
+      end
     end
 
     SchemaCreation.apply_to SampleClass do |schema, some_arg|
