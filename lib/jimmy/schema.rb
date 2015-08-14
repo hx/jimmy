@@ -29,6 +29,7 @@ module Jimmy
       end
       {'type' => type.to_s}.tap do |hash|
         hash['definitions'] = definitions.compile unless definitions.empty?
+        hash['links']       = links.map &:compile unless links.empty?
         dsl.evaluate compiler, hash if compiler
       end
     end
@@ -39,6 +40,10 @@ module Jimmy
 
     def definitions
       @definitions ||= Definitions.new(self)
+    end
+
+    def links
+      @links ||= []
     end
 
     def hash
@@ -54,8 +59,6 @@ module Jimmy
       errors = JSON::Validator.fully_validate(JSON::Validator.schema_for_uri(url).schema, data, errors_as_objects: true)
       raise ValidationError.new(self, data, errors) unless errors.empty?
     end
-
-    private
 
     def initialize(type, domain, locals, *args, &block)
       @attrs  = {}

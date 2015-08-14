@@ -54,6 +54,34 @@ describe Jimmy::Schema do
                     'additionalProperties' => false
                 }
             },
+            'links' => [
+                {
+                    'rel'  => 'relation',
+                    'href' => 'uri'
+                },
+                {
+                    'rel'          => 'relation',
+                    'href'         => 'address',
+                    'title'        => 'A link',
+                    'method'       => 'PATCH',
+                    'schema'       => {
+                        'type'                 => 'object',
+                        'properties'           => {
+                            'id' => {'type' => 'integer'}
+                        },
+                        'required'             => [],
+                        'additionalProperties' => false
+                    },
+                    'targetSchema' => {
+                        'type'                 => 'object',
+                        'properties'           => {
+                            'result' => {'type' => 'string'}
+                        },
+                        'required'             => [],
+                        'additionalProperties' => true
+                    }
+                }
+            ],
             'properties'           => {
                 'instanceOfSubSchema' => {
                     '$ref' => '#/definitions/subSchema'

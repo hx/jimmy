@@ -20,6 +20,19 @@ object do
 
   include :code, specifically: 7
 
+  link relation: 'uri'
+  link relation: 'address' do
+    title 'A link'
+    method :patch
+    schema do
+      integer :id
+    end
+    schema :target do
+      string :result
+      allow_additional
+    end
+  end
+
   object :nothingRequired do
     number :a, 123
     string :b, %w[alpha bravo charlie]

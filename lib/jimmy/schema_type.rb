@@ -82,6 +82,12 @@ module Jimmy
         instance_exec(Reference.new(uri), *args, &handler) if handler
       end
 
+      def link(rel_and_href, &block)
+        link = Link.new(self, *rel_and_href.first)
+        schema.links << link
+        link.dsl.evaluate &block if block
+      end
+
       def method_missing(name, *args, &block)
         if schema.definitions[name]
           ref *args, "#/definitions/#{name}"
