@@ -30,7 +30,7 @@ describe Jimmy::Schema do
     describe '#to_h' do
       it 'matches the expected output' do
         expected = {
-            '$schema'              => 'http://json-schema.org/draft-04/schema#',
+            '$schema'              => 'http://json-schema.org/draft-04/hyper-schema#',
             'id'                   => 'https://example.kom/complex.json#',
             'type'                 => 'object',
             'title'                => 'Complex',

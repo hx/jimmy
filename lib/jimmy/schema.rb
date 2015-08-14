@@ -1,5 +1,7 @@
 module Jimmy
   class Schema
+    JSON_SCHEMA_URI       = 'http://json-schema.org/draft-04/schema#'
+    JSON_HYPER_SCHEMA_URI = 'http://json-schema.org/draft-04/hyper-schema#'
 
     attr_reader :dsl, :attrs, :domain, :type
     attr_accessor :name
@@ -46,13 +48,24 @@ module Jimmy
       @links ||= []
     end
 
-    def hash
-      @hash ||= {'$schema' => 'http://json-schema.org/draft-04/schema#'}
+    def data
+      @data ||= {}
+    end
+
+    def hyper?
+      links.any?
+    end
+
+    def schema_uri
+      hyper? ? JSON_HYPER_SCHEMA_URI : JSON_SCHEMA_URI
     end
 
     def to_h
-      hash['id'] = url if name
-      hash.merge! compile
+      {'$schema' => schema_uri}.tap do |h|
+        h.merge! data
+        h['id'] = url if name
+        h.merge! compile
+      end
     end
 
     def validate(data)

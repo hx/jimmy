@@ -64,7 +64,7 @@ module Jimmy
       end
 
       def set(**values)
-        values.each { |k, v| schema.hash[k.to_s] = v }
+        values.each { |k, v| schema.data[k.to_s] = v }
       end
 
       def definitions(&block)
