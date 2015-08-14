@@ -51,6 +51,9 @@ module Jimmy
         link.schemas[type] = Schema.new(:object, domain, {}, &block)
       end
 
+      def set(**values)
+        values.each { |k, v| link[k.to_s] = v }
+      end
     end
   end
 end

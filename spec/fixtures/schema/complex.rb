@@ -31,6 +31,7 @@ object do
       string :result
       allow_additional
     end
+    set this: 'to_that'
   end
 
   object :nothingRequired do

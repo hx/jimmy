@@ -64,6 +64,7 @@ describe Jimmy::Schema do
                     'href'         => 'address',
                     'title'        => 'A link',
                     'method'       => 'PATCH',
+                    'this'         => 'to_that',
                     'schema'       => {
                         'type'                 => 'object',
                         'properties'           => {
