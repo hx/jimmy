@@ -149,6 +149,14 @@ describe Jimmy::Schema do
                     'minLength' => 5,
                     'maxLength' => 10
                 },
+                'withFormat'         => {
+                    'type'   => 'string',
+                    'format' => 'ipv4'
+                },
+                'withFormatShortcut' => {
+                    'type'   => 'string',
+                    'format' => 'ipv6'
+                },
                 'nullsOrNumbers'  => {
                     'type'     => 'array',
                     'minItems' => 1,

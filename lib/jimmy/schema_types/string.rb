@@ -5,6 +5,15 @@ module Jimmy
     trait :min_length
     trait :max_length
     trait(:pattern) { |regex| attrs[:pattern] = regex.is_a?(Regexp) ? regex.inspect.gsub(%r`^/|/[a-z]*$`, '') : regex }
+    trait(:format) { |value| attrs[:format] = value.to_s.gsub('_', '-') }
+    %i[
+      date_time
+      email
+      hostname
+      ipv4
+      ipv6
+      uri
+    ].each { |k| trait(k) { format k } }
     trait(Regexp) { |regex| pattern regex }
     trait Range do |value|
       variation = value.exclude_end? ? 1 : 0
@@ -20,7 +29,7 @@ module Jimmy
     trait(Array) { |value| attrs[:enum] = value.map(&:to_s) }
 
     compile do |hash|
-      hash.merge! camelize_attrs(%i[min_length max_length pattern enum])
+      hash.merge! camelize_attrs(%i[min_length max_length pattern enum format])
     end
 
   end

@@ -54,6 +54,9 @@ object do
   string(:withMin) { min_length 5 }
   string :withRange, 5..10
 
+  string :withFormat, format: 'ipv4'
+  string :withFormatShortcut, :ipv6
+
   array :nullsOrNumbers, 1..6 do
     null
     ref '/here'
