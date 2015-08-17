@@ -48,7 +48,7 @@ module Jimmy
       end
 
       def schema(type = nil, &block)
-        link.schemas[type] = Schema.new(:object, domain, {}, &block)
+        link.schemas[type] = Schema.new(:object, link.schema, {}, &block)
       end
 
       def set(**values)

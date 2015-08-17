@@ -82,7 +82,7 @@ module Jimmy
       end
 
       def link(rel_and_href, &block)
-        link = Link.new(self, *rel_and_href.first)
+        link = Link.new(schema, *rel_and_href.first)
         schema.links << link
         link.dsl.evaluate &block if block
       end
