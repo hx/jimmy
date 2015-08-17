@@ -42,8 +42,8 @@ module Jimmy
         schema.definitions.key?(name) || super
       end
 
-      def definition(name)
-        "#/definitions/#{name}"
+      def definition(id)
+        "/#{schema.name}#/definitions/#{id}"
       end
 
       def ref(*args, uri)
@@ -81,11 +81,10 @@ module Jimmy
             handler_args = handler && inner_args.shift(handler.arity - 1)
             child_schema = Schema.new(
                 method,
-                respond_to?(:schema) ? schema : domain,
-                locals,
-                *inner_args,
-                &inner_block
+                respond_to?(:schema) ? schema : domain
             )
+            child_schema.name = @schema_name if is_a? Domain
+            child_schema.setup *inner_args, **locals, &inner_block
             instance_exec child_schema, *handler_args, &handler if handler
             child_schema.dsl
           end

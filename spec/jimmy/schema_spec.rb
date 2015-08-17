@@ -93,13 +93,13 @@ describe Jimmy::Schema do
             ],
             'properties'           => {
                 'instanceOfSubSchema' => {
-                    '$ref' => '#/definitions/subSchema'
+                    '$ref' => '/complex#/definitions/subSchema'
                 },
                 'instanceOfAnother' => {
-                    '$ref' => '#/definitions/anotherSchema'
+                    '$ref' => '/complex#/definitions/anotherSchema'
                 },
                 'instanceOfInlineSubSchema' => {
-                    '$ref' => '#/definitions/inlineSubSchema'
+                    '$ref' => '/complex#/definitions/inlineSubSchema'
                 },
                 'id' => {'$ref' => '/types/uuid.json#'},
                 'references' => {
@@ -182,7 +182,7 @@ describe Jimmy::Schema do
                         'anyOf' => [
                             {'type' => 'null'},
                             {'$ref' => '/here'},
-                            {'$ref' => '#/definitions/subSchema'},
+                            {'$ref' => '/complex#/definitions/subSchema'},
                             {
                                 'type'       => 'number',
                                 'minimum'    => 0,

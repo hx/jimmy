@@ -48,7 +48,7 @@ module Jimmy
       end
 
       def schema(type = nil, &block)
-        link.schemas[type] = Schema.new(:object, link.schema, {}, &block)
+        link.schemas[type] = Schema.new(:object, link.schema).tap { |s| s.setup &block }
       end
 
       def set(**values)

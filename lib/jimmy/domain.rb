@@ -80,6 +80,7 @@ module Jimmy
     end
 
     def load_schema_from_path(path, name)
+      @schema_name = name
       instance_eval(path.read, path.to_s).schema.tap do |schema|
         schema.name = name.to_s
         JSON::Validator.add_schema JSON::Schema.new(schema.to_h, nil)

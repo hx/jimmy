@@ -19,7 +19,7 @@ object do
 
   subSchema :instanceOfSubSchema
   ref :instanceOfAnother, definition(:anotherSchema)
-  ref :instanceOfInlineSubSchema, '#/definitions/inlineSubSchema'
+  ref :instanceOfInlineSubSchema, '/complex#/definitions/inlineSubSchema'
 
   include :code, specifically: 7
 
