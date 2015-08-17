@@ -35,6 +35,7 @@ object do
   end
 
   object :nothingRequired do
+    description 'Nothing required'
     number :a, 123
     string :b, %w[alpha bravo charlie]
     require none

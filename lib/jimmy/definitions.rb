@@ -1,9 +1,15 @@
+require 'forwardable'
+
 module Jimmy
-  class Definitions < Hash
+  class Definitions
+    extend Forwardable
+    delegate %i[empty? key? map] => :@values
+    
     attr_reader :schema
 
     def initialize(schema)
       @schema = schema
+      @values = {}
     end
 
     def evaluate(&block)
@@ -23,9 +29,9 @@ module Jimmy
     end
 
     def [](key)
-      super || (schema.parent && schema.parent.definitions[key])
+      @values[key] || (schema.parent && schema.parent.definitions[key])
     end
 
-    SchemaCreation.apply_to(self) { |schema, name| self[name] = schema }
+    SchemaCreation.apply_to(self) { |schema, name| @values[name] = schema }
   end
 end

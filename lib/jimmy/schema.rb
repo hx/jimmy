@@ -32,6 +32,7 @@ module Jimmy
       {'type' => type.to_s}.tap do |hash|
         hash['definitions'] = definitions.compile unless definitions.empty?
         hash['links']       = links.map &:compile unless links.empty?
+        hash.merge! data
         dsl.evaluate compiler, hash if compiler
       end
     end
@@ -62,7 +63,6 @@ module Jimmy
 
     def to_h
       {'$schema' => schema_uri}.tap do |h|
-        h.merge! data
         h['id'] = url if name
         h.merge! compile
       end

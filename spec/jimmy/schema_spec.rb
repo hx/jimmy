@@ -108,6 +108,7 @@ describe Jimmy::Schema do
                     'additionalProperties' => false
                 },
                 'nothingRequired' => {
+                    'description'          => 'Nothing required',
                     'type'                 => 'object',
                     'properties'           => {
                         'a' => {
