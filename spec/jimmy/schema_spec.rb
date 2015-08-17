@@ -42,7 +42,6 @@ describe Jimmy::Schema do
                     'properties' => {
                         'id' => {'type' => 'string'}
                     },
-                    'required' => [],
                     'additionalProperties' => false
                 },
                 'anotherSchema' => {
@@ -50,7 +49,6 @@ describe Jimmy::Schema do
                     'properties' => {
                         'name' => {'type' => 'string'}
                     },
-                    'required' => [],
                     'additionalProperties' => false
                 },
                 'inlineSubSchema' => {
@@ -58,7 +56,6 @@ describe Jimmy::Schema do
                     'properties' => {
                         'id' => {'type' => 'integer'}
                     },
-                    'required' => [],
                     'additionalProperties' => false
                 }
             },
@@ -78,7 +75,6 @@ describe Jimmy::Schema do
                         'properties'           => {
                             'id' => {'type' => 'integer'}
                         },
-                        'required'             => [],
                         'additionalProperties' => false
                     },
                     'targetSchema' => {
@@ -86,7 +82,6 @@ describe Jimmy::Schema do
                         'properties'           => {
                             'result' => {'type' => 'string'}
                         },
-                        'required'             => [],
                         'additionalProperties' => true
                     }
                 }
@@ -115,7 +110,6 @@ describe Jimmy::Schema do
                             ]
                         },
                     },
-                    'required' => [],
                     'additionalProperties' => false
                 },
                 'nothingRequired' => {
@@ -131,7 +125,6 @@ describe Jimmy::Schema do
                             'enum' => %w(alpha bravo charlie)
                         }
                     },
-                    'required'             => [],
                     'additionalProperties' => true
                 },
                 'someRequired'    => {

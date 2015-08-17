@@ -34,7 +34,8 @@ module Jimmy
         hash[collection] ||= {}
         hash[collection][key] = value.compile
       end
-      hash['required'] = (attrs[:required] || []).to_a
+      required = attrs[:required]
+      hash['required'] = required.to_a if required && !required.empty?
       hash['additionalProperties'] = !!attrs[:additional_properties]
     end
 
