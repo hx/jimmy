@@ -41,8 +41,8 @@ module Jimmy
       @name || (parent && parent.name)
     end
 
-    def url
-      "#{domain.root}/#{name}.json#"
+    def uri
+      domain.root + "#{name}.json#"
     end
 
     def definitions
@@ -67,13 +67,13 @@ module Jimmy
 
     def to_h
       {'$schema' => schema_uri}.tap do |h|
-        h['id'] = url if name
+        h['id'] = uri.to_s if name
         h.merge! compile
       end
     end
 
     def validate(data)
-      errors = JSON::Validator.fully_validate(JSON::Validator.schema_for_uri(url).schema, data, errors_as_objects: true)
+      errors = JSON::Validator.fully_validate(JSON::Validator.schema_for_uri(uri).schema, data, errors_as_objects: true)
       raise ValidationError.new(self, data, errors) unless errors.empty?
     end
 
