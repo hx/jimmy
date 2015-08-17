@@ -128,7 +128,7 @@ describe Jimmy::Schema do
                     'additionalProperties' => true
                 },
                 'someRequired'    => {
-                    'type'                 => 'object',
+                    'type'                 => ['null', 'object'],
                     'properties'           => {
                         'a'             => {'type' => 'boolean'},
                         'b'             => {'type' => 'boolean'},

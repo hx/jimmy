@@ -46,6 +46,7 @@ object do
   end
 
   object :someRequired, :allow_additional do
+    nullable
     boolean :a
     boolean :b
 

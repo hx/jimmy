@@ -83,6 +83,10 @@ module Jimmy
         link.dsl.evaluate &block if block
       end
 
+      def nullable
+        schema.nullable = true
+      end
+
       private
 
       # Minimize collisions with local scope (hence the weird name __args)

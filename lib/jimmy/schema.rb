@@ -5,6 +5,7 @@ module Jimmy
 
     attr_reader :dsl, :attrs, :domain, :type, :parent
     attr_writer :name
+    attr_accessor :nullable
 
     @argument_handlers = Hash.new { |hash, key| hash[key] = {} }
     
@@ -29,12 +30,13 @@ module Jimmy
         compiler ||= SchemaTypes.compilers[schema_class]
         schema_class = schema_class.superclass
       end
-      {'type' => type.to_s}.tap do |hash|
-        hash['definitions'] = definitions.compile unless definitions.empty?
-        hash['links']       = links.map &:compile unless links.empty?
-        hash.merge! data
-        dsl.evaluate compiler, hash if compiler
-      end
+      hash                = {}
+      hash['type']        = nullable ? ['null', type.to_s] : type.to_s
+      hash['definitions'] = definitions.compile unless definitions.empty?
+      hash['links']       = links.map &:compile unless links.empty?
+      hash.merge! data
+      dsl.evaluate compiler, hash if compiler
+      hash
     end
 
     def name
