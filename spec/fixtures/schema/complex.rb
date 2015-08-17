@@ -51,6 +51,7 @@ object do
   end
 
   string :basicString
+  string :withTitle, title: 'String with title'
   string :withPattern, /^foobar/
   string :withMax, max_length: 5
   string(:withMin) { min_length 5 }

@@ -21,7 +21,16 @@ module Jimmy
       end
     end
 
+    module MetadataMethods
+      def set(**values)
+        values.each { |k, v| data[k.to_s] = v }
+      end
+
+      %i[title description default].each { |k| define_method(k) { |v| set k => v } }
+    end
+
     module DefiningMethods
+      include MetadataMethods
 
       def locals
         @locals ||= {}
@@ -39,12 +48,6 @@ module Jimmy
       def respond_to_missing?(method, *)
         locals.key?(method) || reserved?(method, false) || super
       end
-
-      def set(**values)
-        values.each { |k, v| data[k.to_s] = v }
-      end
-
-      %i[title description default].each { |k| define_method(k) { |v| set k => v } }
 
       def method_missing(method, *args, &block)
         return locals[method] if locals.key?(method)

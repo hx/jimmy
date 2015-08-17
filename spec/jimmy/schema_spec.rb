@@ -134,6 +134,10 @@ describe Jimmy::Schema do
                     'additionalProperties' => true
                 },
                 'basicString'     => {'type' => 'string'},
+                'withTitle' => {
+                    'type'  => 'string',
+                    'title' => 'String with title'
+                },
                 'withPattern'     => {
                     'type'    => 'string',
                     'pattern' => '^foobar'

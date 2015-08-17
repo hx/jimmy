@@ -37,6 +37,7 @@ module Jimmy
 
     class DSL
       extend Forwardable
+      include SchemaCreation::MetadataMethods
 
       attr_reader :schema
 
