@@ -2,6 +2,7 @@ require_relative 'schema_types'
 
 module Jimmy
   class Combination < Array
+    include SchemaCreation::Referencing
 
     attr_reader :condition, :schema
 

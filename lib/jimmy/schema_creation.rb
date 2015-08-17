@@ -29,6 +29,29 @@ module Jimmy
       %i[title description default].each { |k| define_method(k) { |v| set k => v } }
     end
 
+    module Referencing
+      def method_missing(name, *args, &block)
+        if schema.definitions[name]
+          ref *args, definition(name)
+        else
+          super
+        end
+      end
+
+      def respond_to_missing?(name, *)
+        schema.definitions.key?(name) || super
+      end
+
+      def definition(name)
+        "#/definitions/#{name}"
+      end
+
+      def ref(*args, uri)
+        handler = SchemaCreation.handlers[self.class]
+        instance_exec(Reference.new(uri), *args, &handler) if handler
+      end
+    end
+
     module DefiningMethods
       include MetadataMethods
 

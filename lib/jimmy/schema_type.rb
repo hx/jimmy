@@ -37,6 +37,7 @@ module Jimmy
 
     class DSL
       extend Forwardable
+      include SchemaCreation::Referencing
       include SchemaCreation::MetadataMethods
 
       attr_reader :schema
@@ -68,10 +69,6 @@ module Jimmy
         schema.definitions.evaluate &block
       end
 
-      def definition(name)
-        "#/definitions/#{name}"
-      end
-
       def define(type, *args, &block)
         definitions { __send__ type, *args, &block }
       end
@@ -80,27 +77,10 @@ module Jimmy
         schema.data
       end
 
-      def ref(*args, uri)
-        handler = SchemaCreation.handlers[self.class]
-        instance_exec(Reference.new(uri), *args, &handler) if handler
-      end
-
       def link(rel_and_href, &block)
         link = Link.new(schema, *rel_and_href.first)
         schema.links << link
         link.dsl.evaluate &block if block
-      end
-
-      def method_missing(name, *args, &block)
-        if schema.definitions[name]
-          ref *args, definition(name)
-        else
-          super
-        end
-      end
-
-      def respond_to_missing?(name, *)
-        schema.definitions.key?(name) || super
       end
 
       private
