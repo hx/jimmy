@@ -68,6 +68,10 @@ module Jimmy
         schema.definitions.evaluate &block
       end
 
+      def definition(name)
+        "#/definitions/#{name}"
+      end
+
       def define(type, *args, &block)
         definitions { __send__ type, *args, &block }
       end
@@ -89,7 +93,7 @@ module Jimmy
 
       def method_missing(name, *args, &block)
         if schema.definitions[name]
-          ref *args, "#/definitions/#{name}"
+          ref *args, definition(name)
         else
           super
         end

@@ -8,6 +8,9 @@ object do
     object :subSchema do
       string :id
     end
+    object :anotherSchema do
+      string :name
+    end
   end
 
   define :object, :inlineSubSchema do
@@ -15,7 +18,7 @@ object do
   end
 
   subSchema :instanceOfSubSchema
-
+  ref :instanceOfAnother, definition(:anotherSchema)
   ref :instanceOfInlineSubSchema, '#/definitions/inlineSubSchema'
 
   include :code, specifically: 7

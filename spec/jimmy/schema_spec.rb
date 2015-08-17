@@ -45,6 +45,14 @@ describe Jimmy::Schema do
                     'required' => [],
                     'additionalProperties' => false
                 },
+                'anotherSchema' => {
+                    'type' => 'object',
+                    'properties' => {
+                        'name' => {'type' => 'string'}
+                    },
+                    'required' => [],
+                    'additionalProperties' => false
+                },
                 'inlineSubSchema' => {
                     'type' => 'object',
                     'properties' => {
@@ -86,6 +94,9 @@ describe Jimmy::Schema do
             'properties'           => {
                 'instanceOfSubSchema' => {
                     '$ref' => '#/definitions/subSchema'
+                },
+                'instanceOfAnother' => {
+                    '$ref' => '#/definitions/anotherSchema'
                 },
                 'instanceOfInlineSubSchema' => {
                     '$ref' => '#/definitions/inlineSubSchema'
