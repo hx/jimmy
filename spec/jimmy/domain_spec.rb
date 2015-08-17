@@ -9,6 +9,17 @@ describe Jimmy::Domain do
     expect(subject.root.to_s).to eq 'https://example.kom'
   end
 
+  describe '#uri_for' do
+    it 'appends ".json#" by default' do
+      expect(subject.uri_for 'foo/bar').to eq URI 'https://example.kom/foo/bar.json#'
+    end
+
+    it 'uses the given formatter' do
+      subject.uri_format { |root, name| root + name }
+      expect(subject.uri_for 'flim/flam').to eq URI 'https://example.kom/flim/flam'
+    end
+  end
+
   context 'with an imported schema set' do
 
     before { subject.import SPEC_ROOT + 'fixtures/schema' }

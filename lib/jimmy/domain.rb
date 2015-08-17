@@ -16,6 +16,7 @@ module Jimmy
       @types    = {}
       @partials = {}
       @import_paths = []
+      @uri_formatter = -> _, name { @root + "#{name}.json#" }
     end
 
     def domain
@@ -63,6 +64,14 @@ module Jimmy
       path.mkpath
       @schemas.each { |name, schema| export_schema schema, path + "#{name.to_s}.json" }
       @types.each   { |name, schema| export_schema schema, path + 'types' + "#{name.to_s}.json" }
+    end
+
+    def uri_for(name)
+      @uri_formatter.call root, name
+    end
+
+    def uri_format(&block)
+      @uri_formatter = block
     end
 
     private

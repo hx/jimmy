@@ -42,7 +42,7 @@ module Jimmy
     end
 
     def uri
-      domain.root + "#{name}.json#"
+      domain.uri_for name
     end
 
     def definitions
