@@ -47,8 +47,12 @@ module Jimmy
         instance_exec &block
       end
 
-      def schema(type = nil, &block)
-        link.schemas[type] = Schema.new(:object, link.schema).tap { |s| s.setup &block }
+      def schema(type = :object, prefix = nil, &block)
+        link.schemas[prefix] = Schema.new(type, link.schema).tap { |s| s.setup &block }
+      end
+
+      def target_schema(type = :object, &block)
+        schema type, :target, &block
       end
 
       def set(**values)

@@ -30,7 +30,7 @@ object do
     schema do
       integer :id
     end
-    schema :target do
+    target_schema do
       string :result
       allow_additional
     end
