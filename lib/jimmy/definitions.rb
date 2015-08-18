@@ -2,6 +2,7 @@ require 'forwardable'
 
 module Jimmy
   class Definitions
+    include SchemaCreation::Referencing
     extend Forwardable
     delegate %i[empty? key? map] => :@values
     
