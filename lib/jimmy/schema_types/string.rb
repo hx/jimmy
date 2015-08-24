@@ -14,6 +14,10 @@ module Jimmy
       ipv6
       uri
     ].each { |k| trait(k) { format k } }
+    trait(:enum) do |*values|
+      attrs[:enum] ||= []
+      attrs[:enum] |= values.flatten.map(&:to_s)
+    end
     trait(Regexp) { |regex| pattern regex }
     trait Range do |value|
       variation = value.exclude_end? ? 1 : 0
@@ -26,7 +30,7 @@ module Jimmy
       end
     end
     trait(Fixnum) { |value| min_length value; max_length value }
-    trait(Array) { |value| attrs[:enum] = value.map(&:to_s) }
+    trait(Array) { |value| enum value }
 
     compile do |hash|
       hash.merge! camelize_attrs(%i[min_length max_length pattern enum format])
