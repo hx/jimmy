@@ -84,7 +84,13 @@ describe Jimmy::Schema do
                         },
                         'additionalProperties' => true
                     }
-                }
+                },
+                {
+                    'rel'          => 'something',
+                    'href'         => 'to_this',
+                    'schema'       => {'$ref' => '/complex#/definitions/subSchema'},
+                    'targetSchema' => {'$ref' => 'this_reference'}
+                },
             ],
             'properties'           => {
                 'instanceOfSubSchema' => {

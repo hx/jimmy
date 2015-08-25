@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module Jimmy
   class Link < Hash
     attr_reader :schema
@@ -24,6 +26,26 @@ module Jimmy
       merge schemas.map { |k, v| [(k ? "#{k}Schema" : 'schema'), v.compile] }.to_h
     end
 
+    def schema_creator
+      @schema_creator ||= SchemaCreator.new(self)
+    end
+
+    class SchemaCreator < Hash
+      include SchemaCreation::Referencing
+      extend Forwardable
+      delegate [:schema, :domain] => :@link
+
+      def initialize(link)
+        @link = link
+      end
+
+      def parent
+        schema
+      end
+
+      SchemaCreation.apply_to(self) { |schema, prefix| @link.schemas[prefix] = schema }
+    end
+
     class DSL
       attr_reader :link
 
@@ -47,12 +69,20 @@ module Jimmy
         instance_exec &block
       end
 
-      def schema(type = :object, prefix = nil, &block)
-        link.schemas[prefix] = Schema.new(type, link.schema).tap { |s| s.setup &block }
+      def schema(*args, prefix: nil, **opts, &block)
+        if args.empty? && opts.any?
+          args = opts.shift
+          type = args.shift
+        else
+          type = args.shift || :object
+        end
+        args.unshift type, prefix
+        args << opts if opts.any?
+        link.schema_creator.__send__ *args, &block
       end
 
-      def target_schema(type = :object, &block)
-        schema type, :target, &block
+      def target_schema(*args, **opts, &block)
+        schema *args, **opts.merge(prefix: :target), &block
       end
 
       def set(**values)

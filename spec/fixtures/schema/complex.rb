@@ -36,6 +36,10 @@ object do
     end
     set this: 'to_that'
   end
+  link something: 'to_this' do
+    schema :subSchema
+    target_schema ref: 'this_reference'
+  end
 
   object :nothingRequired do
     description 'Nothing required'
