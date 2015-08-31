@@ -177,6 +177,7 @@ describe Jimmy::Schema do
                     'type'     => 'array',
                     'minItems' => 1,
                     'maxItems' => 6,
+                    'uniqueItems' => true,
                     'items'    => {
                         'anyOf' => [
                             {'type' => 'null'},

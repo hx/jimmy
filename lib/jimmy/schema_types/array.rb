@@ -4,6 +4,7 @@ module Jimmy
 
     trait :min_items
     trait :max_items
+    trait(:unique) { attrs[:unique_items] = true }
     trait Range do |range|
       min, max = [range.first, range.last].sort
       min_items min
@@ -16,7 +17,7 @@ module Jimmy
     end
 
     compile do |hash|
-      hash.merge! camelize_attrs(%i[min_items max_items])
+      hash.merge! camelize_attrs(%i[min_items max_items unique_items])
       items = attrs[:items] || []
       if items.length > 1
         hash['items'] = {'anyOf' => items.map(&:compile)}

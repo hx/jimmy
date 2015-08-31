@@ -68,7 +68,7 @@ object do
   string :withFormat, format: 'ipv4'
   string :withFormatShortcut, :ipv6
 
-  array :nullsOrNumbers, 1..6 do
+  array :nullsOrNumbers, 1..6, :unique do
     null
     ref '/here'
     subSchema
