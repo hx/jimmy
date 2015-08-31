@@ -86,5 +86,10 @@ object do
   uuid :uniqueId
   integer :sixToTwelve, 6..12
 
+  object_array :objectArray, :nullable, min_items: 3 do
+    string :id, format: 'uuid'
+    require all
+  end
+
   require :withMax, 'withMin', [:withRange, 'basicString']
 end

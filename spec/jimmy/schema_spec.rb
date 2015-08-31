@@ -119,8 +119,8 @@ describe Jimmy::Schema do
                     'additionalProperties' => false
                 },
                 'nothingRequired' => {
-                    'description'          => 'Nothing required',
                     'type'                 => 'object',
+                    'description'          => 'Nothing required',
                     'properties'           => {
                         'a' => {
                             'type' => 'number',
@@ -207,7 +207,22 @@ describe Jimmy::Schema do
                     ]
                 },
                 'uniqueId'        => {'$ref' => '/types/uuid.json#'},
-                'sixToTwelve'     => {'type' => 'integer', 'minimum' => 6, 'maximum' => 12}
+                'sixToTwelve'     => {'type' => 'integer', 'minimum' => 6, 'maximum' => 12},
+                'objectArray'     => {
+                    'type' => ['null', 'array'],
+                    'minItems' => 3,
+                    'items' => {
+                        'type' => 'object',
+                        'properties' => {
+                            'id' => {
+                                'type' => 'string',
+                                'format' => 'uuid'
+                            }
+                        },
+                        'additionalProperties' => false,
+                        'required' => ['id']
+                    }
+                }
             },
             'required'             => %w(withMax withMin withRange basicString),
             'additionalProperties' => false

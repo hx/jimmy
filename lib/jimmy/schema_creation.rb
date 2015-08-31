@@ -97,6 +97,10 @@ module Jimmy
           return instance_exec TypeReference.new(method), *args, &SchemaCreation.handlers[self.class]
         end
 
+        if kind_of_array?(method)
+          return array(*args) { __send__ method[0..-7], &block }
+        end
+
         super method, *args, &block
       end
 
@@ -104,7 +108,11 @@ module Jimmy
 
       def reserved?(key, all = true)
         domain.autoload_type key
-        (all && respond_to?(key)) || SchemaTypes.key?(key) || domain.types.key?(key)
+        (all && respond_to?(key)) || SchemaTypes.key?(key) || domain.types.key?(key) || kind_of_array?(key)
+      end
+
+      def kind_of_array?(key)
+        key =~ /^(\w+)_array$/ && reserved?($1.to_sym)
       end
 
     end
