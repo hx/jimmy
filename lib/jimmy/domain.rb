@@ -58,12 +58,12 @@ module Jimmy
       @schemas[schema_name.to_s]
     end
 
-    def export(path = nil)
+    def export(path = nil, &serializer)
       path = Pathname(path) if path.is_a? String
       raise 'Please specify an export directory' unless path.is_a?(Pathname) && (path.directory? || !path.exist?)
       path.mkpath
-      @schemas.each { |name, schema| export_schema schema, path + "#{name.to_s}.json" }
-      @types.each   { |name, schema| export_schema schema, path + 'types' + "#{name.to_s}.json" }
+      @schemas.each { |name, schema| export_schema schema, path +           "#{name.to_s}.json", &serializer }
+      @types.each   { |name, schema| export_schema schema, path + 'types' + "#{name.to_s}.json", &serializer }
     end
 
     def uri_for(name)
@@ -98,7 +98,7 @@ module Jimmy
 
     def export_schema(schema, target_path)
       target_path.parent.mkpath
-      target_path.write JSON.pretty_generate(schema.to_h)
+      target_path.write block_given? ? yield(schema.to_h) : JSON.pretty_generate(schema.to_h)
     end
 
     SchemaCreation.apply_to self

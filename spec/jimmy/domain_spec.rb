@@ -43,6 +43,12 @@ describe Jimmy::Domain do
       it 'expects a path as its first argument' do
         expect { subject.export }.to raise_error /Please specify an export directory/
       end
+
+      it 'uses the given serializer' do
+        serializer = double(run: '{}')
+        expect(serializer).to receive(:run).with(subject[:city].to_h)
+        subject.export(TEMP_ROOT) { |h| serializer.run h }
+      end
     end
 
   end
