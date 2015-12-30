@@ -94,7 +94,7 @@ module Jimmy
         domain.autoload_type method
 
         if domain.types.key? method
-          return instance_exec TypeReference.new(method), *args, &SchemaCreation.handlers[self.class]
+          return instance_exec TypeReference.new(method, args.include?(:nullable)), *args, &SchemaCreation.handlers[self.class]
         end
 
         if kind_of_array?(method)

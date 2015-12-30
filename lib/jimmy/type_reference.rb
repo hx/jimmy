@@ -2,12 +2,9 @@ module Jimmy
   class TypeReference < Reference
     attr_reader :type
 
-    def initialize(type)
+    def initialize(type, *args)
       @type = type
-    end
-
-    def uri
-      "/types/#{type}.json#"
+      super "/types/#{type}.json#", *args
     end
   end
 end

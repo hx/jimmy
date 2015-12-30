@@ -223,6 +223,12 @@ describe Jimmy::Schema do
                         'additionalProperties' => false,
                         'required' => ['id']
                     }
+                },
+                'created' => {
+                    'anyOf' => [
+                        {'type' => 'null'},
+                        {'$ref' => '/types/timestamp.json#'}
+                    ]
                 }
             },
             'required'             => %w(withMax withMin withRange basicString),

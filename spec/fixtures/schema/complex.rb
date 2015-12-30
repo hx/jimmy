@@ -92,4 +92,6 @@ object do
   end
 
   require :withMax, 'withMin', [:withRange, 'basicString']
+
+  timestamp :created, :nullable
 end
