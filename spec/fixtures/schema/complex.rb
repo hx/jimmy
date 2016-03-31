@@ -18,7 +18,7 @@ object do
   end
 
   subSchema :instanceOfSubSchema
-  ref :instanceOfAnother, definition(:anotherSchema)
+  ref :instanceOfAnother, :nullable, definition(:anotherSchema)
   ref :instanceOfInlineSubSchema, '/complex#/definitions/inlineSubSchema' do
     title 'Ref has a title!'
   end

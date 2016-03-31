@@ -97,7 +97,10 @@ describe Jimmy::Schema do
                     '$ref' => '/complex#/definitions/subSchema'
                 },
                 'instanceOfAnother' => {
-                    '$ref' => '/complex#/definitions/anotherSchema'
+                    'anyOf' => [
+                        {'type' => 'null'},
+                        {'$ref' => '/complex#/definitions/anotherSchema'}
+                    ],
                 },
                 'instanceOfInlineSubSchema' => {
                     'title' => 'Ref has a title!',

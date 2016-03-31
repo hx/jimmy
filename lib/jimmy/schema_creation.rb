@@ -48,7 +48,7 @@ module Jimmy
 
       def ref(*args, uri, &block)
         handler = SchemaCreation.handlers[self.class]
-        instance_exec(Reference.new(uri, &block), *args, &handler) if handler
+        instance_exec(Reference.new(uri, args.delete(:nullable), &block), *args, &handler) if handler
       end
     end
 
