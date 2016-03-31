@@ -1,23 +1,27 @@
 module Jimmy
   class Reference
-    attr_reader :uri
+    include SchemaCreation::MetadataMethods
+    attr_reader :uri, :data
 
-    def initialize(uri, nullable = false)
+    def initialize(uri, nullable = false, *args, **opts, &block)
       @uri      = uri
       @nullable = nullable
+      @data     = {}
+      args.each { |arg| __send__ arg }
+      opts.each { |arg| __send__ *arg }
+      instance_exec &block if block
     end
 
     def compile
-      if nullable?
+      data.merge(nullable? ?
         {
             'anyOf' => [
                 {'type' => 'null'},
                 ref_hash
             ]
-        }
-      else
+        } :
         ref_hash
-      end
+      )
     end
 
     def nullable?

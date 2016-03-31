@@ -19,7 +19,9 @@ object do
 
   subSchema :instanceOfSubSchema
   ref :instanceOfAnother, definition(:anotherSchema)
-  ref :instanceOfInlineSubSchema, '/complex#/definitions/inlineSubSchema'
+  ref :instanceOfInlineSubSchema, '/complex#/definitions/inlineSubSchema' do
+    title 'Ref has a title!'
+  end
 
   include :code, specifically: 7
 

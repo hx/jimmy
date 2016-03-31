@@ -32,7 +32,7 @@ module Jimmy
     module Referencing
       def method_missing(name, *args, &block)
         if schema.definitions[name]
-          ref *args, definition(name)
+          ref *args, definition(name), &block
         else
           super
         end
@@ -46,9 +46,9 @@ module Jimmy
         "/#{schema.name}#/definitions/#{id}"
       end
 
-      def ref(*args, uri)
+      def ref(*args, uri, &block)
         handler = SchemaCreation.handlers[self.class]
-        instance_exec(Reference.new(uri), *args, &handler) if handler
+        instance_exec(Reference.new(uri, &block), *args, &handler) if handler
       end
     end
 

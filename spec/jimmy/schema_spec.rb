@@ -100,6 +100,7 @@ describe Jimmy::Schema do
                     '$ref' => '/complex#/definitions/anotherSchema'
                 },
                 'instanceOfInlineSubSchema' => {
+                    'title' => 'Ref has a title!',
                     '$ref' => '/complex#/definitions/inlineSubSchema'
                 },
                 'id' => {'$ref' => '/types/uuid.json#'},
