@@ -1,3 +1,5 @@
+require_relative '../transform_keys'
+
 module Jimmy
   class SchemaTypes::Object < SchemaType
     register!
@@ -20,7 +22,7 @@ module Jimmy
     trait(:allow_additional) { attrs[:additional_properties] = true }
 
     nested do |schema, property_name|
-      (attrs[:properties] ||= {})[property_name] = schema
+      (attrs[:properties] ||= {})[TransformKeys.transformer.transform(property_name, domain.options[:transform_keys])] = schema
     end
 
     compile do |hash|

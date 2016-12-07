@@ -7,16 +7,20 @@ require_relative 'schema_creation'
 
 module Jimmy
   class Domain
+    DEFAULT_OPTIONS = {
+        transform_keys: nil
+    }
 
-    attr_reader :root, :types, :partials
+    attr_reader :root, :types, :partials, :options
 
-    def initialize(root)
+    def initialize(root, **options)
       @root     = URI(root)
       @schemas  = {}
       @types    = {}
       @partials = {}
       @import_paths = []
       @uri_formatter = -> _, name { @root + "#{name}.json#" }
+      @options  = DEFAULT_OPTIONS.merge(options)
     end
 
     def domain
