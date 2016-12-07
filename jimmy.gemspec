@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Jimmy the JSON Schema DSL'
   spec.description   = 'Jimmy makes it a snap to compose detailed JSON schema documents.'
-  spec.homepage      = 'https://github.com/orionvm/jimmy'
+  spec.homepage      = 'https://github.com/hx/jimmy'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'bin'
