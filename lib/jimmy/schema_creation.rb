@@ -48,7 +48,7 @@ module Jimmy
 
       def ref(*args, uri, &block)
         handler = SchemaCreation.handlers[self.class]
-        instance_exec(Reference.new(uri, args.delete(:nullable), &block), *args, &handler) if handler
+        instance_exec(Reference.new(uri, domain, args.delete(:nullable), &block), *args, &handler) if handler
       end
     end
 
@@ -94,7 +94,7 @@ module Jimmy
         domain.autoload_type method
 
         if domain.types.key? method
-          return instance_exec TypeReference.new(method, args.include?(:nullable)), *args, &SchemaCreation.handlers[self.class]
+          return instance_exec TypeReference.new(method, domain, args.include?(:nullable)), *args, &SchemaCreation.handlers[self.class]
         end
 
         if kind_of_array?(method)

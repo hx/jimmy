@@ -22,6 +22,14 @@ module Jimmy
           sym
         end
       end
+
+      def transform_ref(str, method)
+        if method
+          str.sub(/#(.+)/) { '#' << $1.split('/').map { |part| __send__ method, part }.join('/') }
+        else
+          str
+        end
+      end
     end
 
     def self.transformer

@@ -1,10 +1,12 @@
+require_relative './transform_keys'
+
 module Jimmy
   class Reference
     include SchemaCreation::MetadataMethods
     attr_reader :uri, :data
 
-    def initialize(uri, nullable = false, *args, **opts, &block)
-      @uri      = uri
+    def initialize(uri, domain, nullable = false, *args, **opts, &block)
+      @uri      = TransformKeys.transformer.transform_ref(uri, domain.options[:transform_keys])
       @nullable = nullable
       @data     = {}
       args.each { |arg| __send__ arg }

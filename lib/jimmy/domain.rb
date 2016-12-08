@@ -11,7 +11,7 @@ module Jimmy
         transform_keys: nil
     }
 
-    attr_reader :root, :types, :partials, :options
+    attr_reader :root, :types, :partials, :options, :schemas
 
     def initialize(root, **options)
       @root     = URI(root)
