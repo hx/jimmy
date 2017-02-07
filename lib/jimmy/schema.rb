@@ -36,6 +36,7 @@ module Jimmy
       hash['links']       = links.map &:compile unless links.empty?
       hash.merge! data
       dsl.evaluate compiler, hash if compiler
+      hash['enum'] |= [nil] if nullable && hash.key?('enum')
       hash
     end
 
