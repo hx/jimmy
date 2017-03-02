@@ -10,7 +10,7 @@ module Jimmy
       min_items min
       max_items max
     end
-    trait(Fixnum) { |value| min_items value; max_items value }
+    trait(Integer) { |value| min_items value; max_items value }
 
     nested do |schema|
       (attrs[:items] ||= []) << schema

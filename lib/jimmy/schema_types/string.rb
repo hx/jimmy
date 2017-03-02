@@ -29,7 +29,7 @@ module Jimmy
         attrs[:min_length] = value.last + variation
       end
     end
-    trait(Fixnum) { |value| min_length value; max_length value }
+    trait(Integer) { |value| min_length value; max_length value }
     trait(Array) { |value| enum value }
 
     compile do |hash|
