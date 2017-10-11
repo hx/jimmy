@@ -16,7 +16,7 @@ module Jimmy
       end
 
       def transform(sym, method)
-        if method
+        if method && sym.is_a?(Symbol)
           cache(method)[sym] ||= __send__(method, sym.to_s).to_sym
         else
           sym
