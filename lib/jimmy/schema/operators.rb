@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     def ==(other)
       return false unless other.is_a? Schema
 
@@ -26,7 +26,7 @@ module Jimmy
     def negated
       return ANYTHING if nothing?
       return NOTHING if anything?
-      return get('not') if @properties.keys == ['not']
+      return get('not') if keys == ['not']
 
       Schema.new.not self
     end
@@ -86,7 +86,7 @@ module Jimmy
     def make_new_composite(name, other)
       return self if other == self
 
-      this = @properties.keys == [name] ? get(name) : [self]
+      this = keys == [name] ? get(name) : [self]
       Schema.new.instance_exec { set_composite name, [*this, other] }
     end
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     # Define a property for an object value.
     # @param [String, Symbol] name The name of the property.
     # @param [Jimmy::Schema] schema The schema for the property. If
@@ -13,7 +13,6 @@ module Jimmy
     # @return [self] self, for chaining
     def property(name, schema = Schema.new, required: false, &block)
       valid_for 'object'
-      name = name.to_s if name.is_a? Symbol
       collection = collection_for_property_key(name)
       assign_to_schema_hash collection, name, schema, &block
       require name if required
@@ -29,7 +28,7 @@ module Jimmy
     # @yieldparam schema [Jimmy::Schema] A new schema created for a property
     #   that was given without one.
     # @return [self] self, for chaining
-    def properties(properties, required: true, &block)
+    def properties(properties, required: false, &block)
       valid_for 'object'
       assert_hash properties
       groups = properties.group_by { |k, _| collection_for_property_key k }
@@ -88,14 +87,14 @@ module Jimmy
     end
 
     def validate_property_name(name)
-      name = name.to_s if name.is_a? Symbol
+      name = cast_key(name)
       assert_string name
       return name unless get('additionalProperties', nil) == NOTHING
 
       names    = get('properties') { {} }.keys
       patterns = get('patternProperties') { {} }.keys
       assert names.include?(name) || patterns.any? { |p| p.match? name } do
-        "Expected '#{name}' to be a "
+        "Expected '#{name}' to be an existing property"
       end
       name
     end

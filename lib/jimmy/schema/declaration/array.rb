@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     # Set whether the array value is required to have unique items.
     # @param [true, false] unique Whether the array value should have unique
     #   items.
@@ -62,12 +62,13 @@ module Jimmy
         item *schema_or_schemas
         set additionalItems: cast_schema(rest_schema) if rest_schema
       else
-        catch_all_items schema_or_schemas, rest_schema
+        match_all_items schema_or_schemas, rest_schema
       end
+      self
     end
 
     # Add a single-item schema, or several, to the +items+ array. Only valid
-    # if a catch-all schema has not been set.
+    # if a match-all schema has not been set.
     # @param [Array<Jimmy::Schema>] single_item_schemas One or more schemas
     #   to add to the existing +items+ array.
     # @return [self] self, for chaining
@@ -86,7 +87,7 @@ module Jimmy
 
     private
 
-    def catch_all_items(schema, rest_schema)
+    def match_all_items(schema, rest_schema)
       valid_for 'array'
       assert(rest_schema.nil?) do
         'You cannot specify an additional items schema when using a '\

@@ -1,13 +1,8 @@
-# The behavior of RuboCop can be controlled via the .rubocop.yml
-# configuration file. It makes it possible to enable/disable
-# certain cops (checks) and to alter their behavior if they accept
-# any parameters. The file can be placed either in your home
-# directory or in some project directory.
-#
-# RuboCop will start looking for the configuration file in the directory
-# where the inspected file is and continue its way up to the root directory.
-#
 # See https://github.com/rubocop-hq/rubocop/blob/master/manual/configuration.md
+# See https://docs.rubocop.org/en/stable/
+
+AllCops:
+  NewCops: enable
 
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
@@ -31,11 +26,24 @@ Metrics/ModuleLength:
     - spec/**/*_spec.rb
 
 Naming/MethodParameterName:
-  AllowedNames:
-    - as
+  AllowedNames: ['as', 'id']
 
 Style/AndOr:
   EnforcedStyle: conditionals
 
+Style/Documentation:
+  Exclude:
+    - spec/**/*_spec.rb
+    - lib/jimmy/schema/**/*.rb
+
+Style/FormatString:
+  EnforcedStyle: percent
+
+Style/FormatStringToken:
+  EnforcedStyle: unannotated
+
 Style/NestedParenthesizedCalls:
+  Enabled: false
+
+Style/PerlBackrefs:
   Enabled: false

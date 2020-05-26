@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     # Set the +anyOf+ value for the schema.
     # @param [Array<Jimmy::Schema>] schemas The schemas to set as the value of
     #   +anyOf+.

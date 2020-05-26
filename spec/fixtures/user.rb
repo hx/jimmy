@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 struct(
-  id:    string.length(8),
+  id:    ref('/uuid#'),
   email: string.email!,
-  some:  /thing/
+  age:   13..
 )

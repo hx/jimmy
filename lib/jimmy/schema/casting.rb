@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     private
 
     # Cast the given value to a usable schema.
@@ -20,16 +20,13 @@ module Jimmy
       end
     end
 
-    def cast_hash_key(value)
-      case value
-      when Symbol
-        value.to_s
+    def cast_key(key)
+      case key
       when Regexp
-        assert_regexp value
-        value.source
+        assert_regexp key
+        super key.source
       else
-        assert_string value
-        value
+        super
       end
     end
   end

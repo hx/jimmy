@@ -11,7 +11,7 @@ require 'jimmy/schema/declaration/composites'
 require 'jimmy/schema/declaration/reference'
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     # Set the title of the schema.
     # @param [String] title The title of the schema.
     # @return [self] self, for chaining
@@ -84,6 +84,7 @@ module Jimmy
     # @return [self] self, for chaining
     def examples(*examples)
       getset('examples') { [] }.concat examples
+      self
     end
 
     alias example examples
@@ -120,9 +121,9 @@ module Jimmy
     # Make the schema validate nothing (i.e. everything is invalid).
     # @return [self] self
     def nothing!
-      @properties.clear
+      clear
       @nothing = true
-      freeze
+      self
     end
 
     private
@@ -131,21 +132,20 @@ module Jimmy
     def set(props)
       # Trigger a FrozenError on self instead of the properties hash
       @a = 1 if frozen?
-      props.each { |k, v| @properties[k.to_s] = v }
+      props.each { |k, v| self[k.to_s] = v }
       self
     end
 
-    def get(name, *args, &block)
-      @properties.fetch name, *args, &block
-    end
+    alias get fetch
 
     def getset(name)
-      get(name) { yield.tap { |value| set name => value } }
+      set name => yield unless key? name
+      get name
     end
 
     def assign_to_schema_hash(property_name, key, schema)
-      property_name = cast_hash_key(property_name)
-      key           = cast_hash_key(key)
+      property_name = cast_key(property_name)
+      key           = cast_key(key)
       hash          = getset(property_name) { {} }
       assert !hash.key?(key) do
         "Property '#{property_name}' already has a member '#{key}'"
@@ -159,7 +159,7 @@ module Jimmy
     def batch_assign_to_schema_hash(property_name, hash)
       assert_hash hash
       hash.each do |name, schema|
-        name = cast_hash_key(name)
+        name = cast_key(name)
         if schema.nil? && block_given?
           schema = Schema.new
           yield name, schema

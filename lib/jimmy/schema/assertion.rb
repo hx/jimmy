@@ -3,12 +3,12 @@
 require 'jimmy/error'
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     BOOLEANS = Set.new([true, false]).freeze
 
     private
 
-    def assert(condition = true)
+    def assert(condition = false)
       raise Error::InvalidSchemaPropertyValue, yield unless condition
     end
 
@@ -24,7 +24,7 @@ module Jimmy
     def assert_simple_type(value)
       assert_string value
       assert SIMPLE_TYPES.include?(value) do
-        "Expected #{value.class} to be one of #{SIMPLE_TYPES.join ', '}"
+        "Expected #{value.class} to be one of #{SIMPLE_TYPES.to_a.join ', '}"
       end
     end
 
@@ -38,7 +38,7 @@ module Jimmy
       assert(value.is_a? Array) { "Expected #{value.class} to be an array" }
       assert(value.uniq == value) { 'Expected a unique array' } if unique
       assert value.length >= minimum do
-        "Expected an array of at least #{minimum} items"
+        "Expected an array of at least #{minimum} item(s)"
       end
     end
 
@@ -52,7 +52,7 @@ module Jimmy
 
     def assert_regexp(value)
       assert value.is_a? Regexp do
-        "Expected #{value} to be regular expression"
+        "Expected #{value.class} to be regular expression"
       end
       assert value.options.zero? do
         "Expected #{value.inspect} not to have any options"
@@ -71,18 +71,11 @@ module Jimmy
     def type?(*types)
       types.each &method(:assert_simple_type)
       existing = get('type', nil)
-      if existing.is_a? Array
-        (existing & types).any?
+      if existing.is_a? JsonArray
+        (existing.to_a & types).any?
       else
         types.include? existing
       end
-    end
-
-    # Returns true if all the given types are existing types.
-    # @param [Array<String>] types The type or types to check.
-    # @return [true, false]
-    def types?(*types)
-      types.all? &method(:type?)
     end
   end
 end

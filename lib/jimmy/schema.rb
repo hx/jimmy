@@ -2,41 +2,37 @@
 
 require 'json'
 
-require 'jimmy/schema/declaration'
-require 'jimmy/schema/operators'
-require 'jimmy/schema/json'
+require 'jimmy/json_hash'
 
 module Jimmy
   # Represents a schema as defined by http://json-schema.org/draft-07/schema
-  class Schema
-    # Import an existing JSON schema hash and represent it as an instance of
-    # +Jimmy::Schema+.
-    # @param [Hash, true, false] schema The plain schema to import.
-    # @return [Jimmy::Schema]
-    def self.from_json(schema)
-      case schema
-      when true then ANYTHING
-      when false then NOTHING
-      when Hash
-        new.instance_exec do
-          @properties = JSON.as_json(schema)
-          freeze
-        end
-      else raise TypeError, "Unexpected #{schema.class}"
-      end
-    end
+  class Schema < JsonHash
+    PROPERTIES = %w[
+      title description default readOnly writeOnly examples
+      multipleOf maximum exclusiveMaximum minimum exclusiveMinimum
+      maxLength minLength pattern
+      additionalItems items maxItems minItems uniqueItems contains
+      maxProperties minProperties required additionalProperties
+      definitions properties patternProperties dependencies propertyNames
+      const enum type format
+      contentMediaType contentEncoding
+      if then else
+      allOf anyOf oneOf
+      not
+    ].freeze
 
     # @yieldparam schema [self] The new schema
-    def initialize
+    def initialize(schema = {})
       @nothing = false
-      @properties = {}
+      case schema
+      when true then super({})
+      when false
+        @nothing = true
+        super({})
+      when Hash then super
+      else raise TypeError, "Unexpected #{schema.class}"
+      end
       yield self if block_given?
-    end
-
-    # @see Object#freeze
-    def freeze
-      @properties.freeze
-      super
     end
 
     # A schema representing +true+.
@@ -45,7 +41,7 @@ module Jimmy
 
     # A schema representing +false+.
     # @type [Schema]
-    NOTHING = new.nothing!
+    NOTHING = new(false).freeze
 
     # Returns true when the schema will never validate against anything.
     # @return [true, false]
@@ -56,11 +52,35 @@ module Jimmy
     # Returns true when the schema will validate against anything.
     # @return [true, false]
     def anything?
-      !@nothing && @properties.empty?
+      !@nothing && empty?
+    end
+
+    def []=(key, value)
+      @nothing = false
+
+      case key
+      when '$id' then @id = value # TODO: something, with this
+      when '$ref' then ref value
+      when '$schema'
+        URI(value) == URI(SCHEMA) or
+          raise ArgumentError, 'Unsupported JSON schema draft'
+      when '$comment' then @comment = value # TODO: something, with this
+      else super
+      end
     end
 
     def inspect
-      "#<#{self.class} #{as_json.inspect}>"
+      "#<#{self.class} #{super}>"
+    end
+
+    PROPERTY_SEQUENCE = PROPERTIES.each.with_index.to_h.freeze
+
+    def sort_keys_by(key, _value) # :nodoc:
+      PROPERTY_SEQUENCE.fetch(key) { raise KeyError, 'Not a valid schema key' }
     end
   end
 end
+
+require 'jimmy/schema/declaration'
+require 'jimmy/schema/operators'
+require 'jimmy/schema/json'

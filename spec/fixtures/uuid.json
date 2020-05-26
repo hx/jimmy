@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "string",
+  "minLength": 36,
+  "maxLength": 36,
+  "pattern": "^\\h{8}-(\\h{4}-){3}\\h{12}$"
+}

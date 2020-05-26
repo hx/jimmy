@@ -6,6 +6,7 @@ require 'simplecov'
 SimpleCov.start do
   enable_coverage :branch
   minimum_coverage 100
+  add_filter '/spec/'
 end
 
 require 'jimmy'

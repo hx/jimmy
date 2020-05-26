@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     # Set the number of which the value should be a multiple.
     # @param [Numeric] number The number to set as the multipleOf value
     # @return [self] self, for chaining
@@ -51,6 +51,7 @@ module Jimmy
       assert_range range
       minimum range.begin
       maximum range.end, exclusive: range.exclude_end? unless range.end.nil?
+      self
     end
 
     private

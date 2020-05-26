@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema # rubocop:disable Style/Documentation
+  class Schema
     # Acceptable values for +#type+.
     SIMPLE_TYPES =
       Set.new(%w[array boolean integer null number object string]).freeze
