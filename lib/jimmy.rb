@@ -9,5 +9,7 @@ require 'jimmy/json_uri'
 
 # Jimmy makes declaring and validating against JSON schemas a piece of cake.
 module Jimmy
+  ROOT = Pathname(__dir__).parent
+
   extend Macros
 end

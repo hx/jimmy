@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json_schemer'
+
 module Jimmy
   describe Schema do
     describe 'declaration' do
@@ -80,12 +82,12 @@ module Jimmy
       end
 
       describe 'a complex example' do
-        it 'forms the expected schema' do
-          j        = Jimmy
-          actual   = j.struct(
+        let :actual do
+          j = Jimmy
+          j.struct(
             id:  j.string.length(2..).email!,
             num: j.integer.range(4...10).multiple_of(2),
-            arr: j.array.count(3..4).items(j.string).unique_items!,
+            arr: j.array.count(3..4).items(j.string).unique_items!
           ).nullable.not(false).properties(
             a_b: /foo/,
             ext: j.string.length(3),
@@ -101,8 +103,8 @@ module Jimmy
             one: j.schema.one_of([j.number, j.null])
           )
             .property(
-              /\A\w+_id\z/,
-              j.integer.exclusive_minimum(0).exclusive_maximum(1000),
+              /^\w+_id$/,
+              j.integer.exclusive_minimum(0).exclusive_maximum(1000)
             )
             .definitions(uuid: j.ref('uuid'))
             .property(:any, true, required: true)
@@ -112,7 +114,10 @@ module Jimmy
             .enum([j.struct])
             .example('hello')
             .default({})
-          expected = {
+        end
+
+        let :expected do
+          {
             'description'          => 'test description',
             'readOnly'             => true,
             'writeOnly'            => true,
@@ -181,7 +186,7 @@ module Jimmy
               }
             },
             'patternProperties'    => {
-              '\A\w+_id\z' => {
+              '^\w+_id$' => {
                 'type'             => 'integer',
                 'exclusiveMinimum' => 0,
                 'exclusiveMaximum' => 1000
@@ -191,7 +196,16 @@ module Jimmy
             'type'                 => %w[object null],
             'not'                  => false
           }
+        end
+
+        it 'forms the expected schema' do
           expect(actual.as_json).to eq expected
+        end
+
+        it 'is a valid JSON schema (draft 7)' do
+          schemer = JSONSchemer.schema(ROOT + 'schema07.json')
+          errors  = schemer.validate(actual.as_json).to_a
+          expect(errors).to be_empty
         end
       end
 

@@ -26,7 +26,7 @@ module Jimmy
     end
 
     describe '#dig' do
-      before { subject << {'a' => 1} }
+      before { subject << { 'a' => 1 } }
 
       it 'accepts integers' do
         expect(subject.dig 0, 'a').to eq 1
