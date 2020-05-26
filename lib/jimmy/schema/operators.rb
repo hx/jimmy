@@ -2,6 +2,9 @@
 
 module Jimmy
   class Schema
+    # Compare the schema to another schema.
+    # @param [Schema] other
+    # @return [true, false]
     def ==(other)
       return false unless other.is_a? Schema
 

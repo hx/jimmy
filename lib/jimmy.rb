@@ -12,4 +12,9 @@ module Jimmy
   ROOT = Pathname(__dir__).parent
 
   extend Macros
+
+  # @see SchemerFactory#initialize
+  def self.schemer(*args, **opts)
+    SchemerFactory.new(*args, **opts).schemer
+  end
 end

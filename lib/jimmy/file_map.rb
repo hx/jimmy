@@ -7,18 +7,43 @@ require 'jimmy/schema_with_uri'
 require 'jimmy/schemer_factory'
 
 module Jimmy
-  # Maps a directory of files to schemas with URIs.
+  # Maps a directory of files to schemas with URIs. Can be used as a URI
+  # resolver with {SchemerFactory}.
+  #
+  # Given +~/schemas/user.rb+ as a schema file:
+  #
+  #   file_map = FileMap.new('~/schemas', 'http://example.com/schemas/', suffix: '.json')
+  #   file_map.resolve('user.json') # => SchemaWithURI
+  #
+  # Calling {SchemaWithURI#as_json} on the above will include the full ID
+  # +http://example.com/schemas/user.json#+ in the +$id+ key.
+  #
+  # Including the suffix in the call to {FileMap#resolve} is optional.
+  #
+  # If you initialize a {FileMap} with +live: true+, files will be loaded
+  # lazily and repeatedly, every time {FileMap#resolve} or {FileMap#index} is
+  # called. This is intended as convenience for development environments.
   class FileMap
     DEFAULT_LOADERS = {
       'rb'   => Loaders::Ruby,
       'json' => Loaders::JSON
     }.freeze
 
-    # @param [Pathname, String] base_dir
-    # @param [JsonURI, URI, String] base_uri
-    # @param [true, false] live
-    # @param [Hash{String => #call}] loaders
-    # @param [String] suffix
+    # @param [Pathname, String] base_dir The directory that should map to the
+    #   given URI.
+    # @param [JsonURI, URI, String] base_uri The URI that should resolve to
+    #   the given directory. If omitted, a +file://+ URI will be used for the
+    #   absolute path of the given directory.
+    # @param [true, false] live When true, schemas are not stored in memory, and
+    #   are instead live-reloaded on demand. Typically only useful for
+    #   development environments.
+    # @param [Hash{String => #call}] loaders Loaders for one or more file types.
+    #   By default, +.json+ files are parsed as-is, and +.rb+ files are
+    #   evaluated in the context of a {Loaders::Ruby} instance, which
+    #   exposes the methods in {Macros}.
+    # @param [String] suffix Optional suffix that will be appended to each
+    #   schema ID. This can be set to +".json"+ if, for example, you want your
+    #   schemas to have +.json+ suffixes when you serve them over HTTP.
     def initialize(
       base_dir,
       base_uri = nil,
@@ -41,6 +66,8 @@ module Jimmy
       index unless live
     end
 
+    # Given a URI, either absolute or relative to the file map's base URI,
+    # returns a {SchemaWithURI} if a matching schema is found.
     # @param [JsonURI, URI, String] uri
     # @return [Jimmy::SchemaWithURI, nil]
     def resolve(uri)
@@ -55,6 +82,7 @@ module Jimmy
 
     alias [] resolve
 
+    # Get an index of all schemas in the file map's directory.
     # @return [Jimmy::Index]
     def index
       return @index if @index
@@ -65,6 +93,8 @@ module Jimmy
       index
     end
 
+    # Returns true if live-reloading is enabled.
+    # @return [true, false]
     def live?
       @live
     end

@@ -36,11 +36,11 @@ module Jimmy
     end
 
     # A schema representing +true+.
-    # @type [Schema]
+    # @return [Schema]
     ANYTHING = new.freeze
 
     # A schema representing +false+.
-    # @type [Schema]
+    # @return [Schema]
     NOTHING = new(false).freeze
 
     # Returns true when the schema will never validate against anything.

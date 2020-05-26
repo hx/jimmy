@@ -3,6 +3,7 @@
 module Jimmy
   module Loaders
     # Base class for all file loaders
+    # @abstract
     class Base
       def self.call(file)
         new(file).load

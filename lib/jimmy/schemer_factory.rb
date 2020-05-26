@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
-module Jimmy # rubocop:disable Style/Documentation
+module Jimmy
   # Factory class for making +JSONSchemer::Schema::Base+ instances
   class SchemerFactory
+    # Returns true if the +json_schemer+ gem is loaded.
+    # @return [true, false]
     def self.available?
       defined? ::JSONSchemer
     end
 
-    # @param [#as_json] schema
+    # @param [Schema, #as_json] schema
     # @param [Array<#resolve, 'net/http'>] resolvers
     # @param [true, false] cache_resolvers
     # @param [Hash] opts Options to be passed to +JSONSchemer+
@@ -27,6 +29,9 @@ module Jimmy # rubocop:disable Style/Documentation
       @options[:ref_resolver] = res
     end
 
+    # Get an instance of {JSONSchemer::Schema::Base} that can be used to
+    # validate JSON documents against the given {Schema}.
+    # @return [JSONSchemer::Schema::Base]
     def schemer
       @schemer ||= JSONSchemer.schema(@schema.as_json, **@options)
     end
@@ -51,10 +56,5 @@ module Jimmy # rubocop:disable Style/Documentation
 
       resolver
     end
-  end
-
-  # @see {SchemerFactory#initialize}
-  def self.schemer(*args, **opts)
-    SchemerFactory.new(*args, **opts).schemer
   end
 end
