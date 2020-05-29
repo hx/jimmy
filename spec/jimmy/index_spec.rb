@@ -15,7 +15,7 @@ module Jimmy
     end
 
     it 'returns nil when partials are not found' do
-      subject['http://foo/bar'] = Jimmy.struct(foo: true)
+      subject['http://foo/bar'] = Jimmy.struct.require(foo: true)
       expect(subject.resolve 'http://foo/bar#/properties/foo').not_to be nil
       expect(subject.resolve 'http://foo/bar#/properties/bar').to be nil
       expect(subject.resolve 'http://foo/baz#/properties/bar').to be nil

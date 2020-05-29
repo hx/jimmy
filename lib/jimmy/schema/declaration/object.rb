@@ -12,6 +12,8 @@ module Jimmy
     # @yieldparam schema [Jimmy::Schema] The schema being assigned.
     # @return [self] self, for chaining
     def property(name, schema = Schema.new, required: false, &block)
+      return properties(name, required: required, &block) if name.is_a? Hash
+
       valid_for 'object'
       collection = collection_for_property_key(name)
       assign_to_schema_hash collection, name, schema, &block
@@ -39,6 +41,8 @@ module Jimmy
       self
     end
 
+    alias allow properties
+
     # Designate the given properties as required for object values.
     # @param [Array<String, Symbol, Hash{String, Symbol => Jimmy::Schema, nil}>]
     #   properties Names of properties that are required, or hashes that can be
@@ -60,6 +64,8 @@ module Jimmy
       self
     end
 
+    alias requires require
+
     # Require all properties that have been explicitly defined for object
     #   values.
     # @return [self] self, for chaining
@@ -74,6 +80,10 @@ module Jimmy
     # @return [self] self, for chaining
     def additional_properties(schema)
       set additionalProperties: cast_schema(schema)
+    end
+
+    def struct
+      object.additional_properties false
     end
 
     private

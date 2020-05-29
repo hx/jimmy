@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-struct(
+struct.require(
   id:    ref('/uuid#'),
   email: string.email,
   age:   13..

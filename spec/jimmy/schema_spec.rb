@@ -84,11 +84,11 @@ module Jimmy
       describe 'a complex example' do
         let :actual do
           j = Jimmy
-          j.struct(
+          j.struct.require(
             id:  j.string.length(2..).email,
             num: j.integer.range(4...10).multiple_of(2),
             arr: j.array.count(3..4).items(j.string).unique_items
-          ).nullable.not(false).properties(
+          ).nullable.not(false).allow(
             a_b: /foo/,
             ext: j.string.length(3),
             abc: j.array.count(3).items(
@@ -103,8 +103,9 @@ module Jimmy
             one: j.schema.one_of([j.number, j.null])
           )
             .property(
-              /^\w+_id$/,
-              j.integer.exclusive_minimum(0).exclusive_maximum(1000)
+              /^\w+_id$/ => j.integer
+                .exclusive_minimum(0)
+                .exclusive_maximum(1000)
             )
             .definitions(uuid: j.ref('uuid'))
             .property(:any, true, required: true)

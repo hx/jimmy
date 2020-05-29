@@ -34,47 +34,26 @@ module Jimmy
     # @!method string
     #   Create a schema with 'type' => 'string'
     #   @return [Jimmy::Schema] The new schema.
-    Schema::SIMPLE_TYPES.each do |type|
-      module_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def #{type}
-          schema.#{type}
+
+    # TODO: More YARD
+
+    def method_missing(name, *args, &block)
+      return super unless Schema.new.respond_to? name
+
+      Macros.module_eval <<-RUBY, __FILE__, __LINE__ + 1
+        def #{name}(*args)
+          schema = Schema.new
+          schema.#{name} *args
+          yield schema if block_given? && args.none?
+          schema
         end
       RUBY
+
+      __send__ name, *args, &block
     end
 
-    # TODO: YARD
-    Schema::FORMATS.each do |format|
-      format = format.gsub('-', '_')
-      module_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def #{format}
-          schema.#{format}
-        end
-      RUBY
-    end
-
-    # Make an object schema that does not allow additional properties. Any
-    # properties given as arguments will be required.
-    # @param [Hash{Symbol, String => Jimmy::Schema, nil}]
-    #   required_properties
-    # @yieldparam name [String] The name of a property that was given with a nil
-    #   schema.
-    # @yieldparam schema [Jimmy::Schema] A new schema created for a property
-    #   that was given without one.
-    # @return [Jimmy::Schema] The new schema.
-    def struct(required_properties = {}, &block)
-      object.additional_properties(false).tap do |s|
-        s.require required_properties, &block if required_properties.any?
-      end
-    end
-
-    # @see Schema#const
-    def const(value)
-      schema.const value
-    end
-
-    # @see Schema#ref
-    def ref(uri)
-      schema.ref uri
+    def respond_to_missing?(name, *)
+      Schema.new.respond_to? name or super
     end
   end
 end
