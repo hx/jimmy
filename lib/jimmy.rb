@@ -17,4 +17,8 @@ module Jimmy
   def self.schemer(*args, **opts)
     SchemerFactory.new(*args, **opts).schemer
   end
+
+  def self.Schema(schema) # rubocop:disable Naming/MethodName
+    schema.is_a?(Schema) ? schema : Schema.new(schema)
+  end
 end

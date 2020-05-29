@@ -27,8 +27,8 @@ module Jimmy
     # opposite absolute.
     # @return [Jimmy::Schema]
     def negated
-      return ANYTHING if nothing?
-      return NOTHING if anything?
+      return Schema.new if nothing?
+      return Schema.new.nothing if anything?
       return get('not') if keys == ['not']
 
       Schema.new.not self

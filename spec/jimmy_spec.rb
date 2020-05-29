@@ -10,4 +10,12 @@ describe Jimmy do
     expect(Jimmy).not_to respond_to :trucked
     expect { Jimmy.trucked }.to raise_error NoMethodError
   end
+
+  describe '#Schema' do
+    it 'selectively casts to Schema' do
+      x = Jimmy.null
+      expect(Jimmy::Schema(x)).to be x
+      expect(Jimmy::Schema(/foo/)).to eq Jimmy.string.pattern(/foo/)
+    end
+  end
 end

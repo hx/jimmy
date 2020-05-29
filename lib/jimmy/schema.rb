@@ -25,23 +25,14 @@ module Jimmy
     def initialize(schema = {})
       @nothing = false
       case schema
-      when true then super({})
-      when false
-        @nothing = true
+      when *CASTABLE_CLASSES
         super({})
+        apply_cast self, schema
       when Hash then super
       else raise TypeError, "Unexpected #{schema.class}"
       end
       yield self if block_given?
     end
-
-    # A schema representing +true+.
-    # @return [Schema]
-    ANYTHING = new.freeze
-
-    # A schema representing +false+.
-    # @return [Schema]
-    NOTHING = new(false).freeze
 
     # Returns true when the schema will never validate against anything.
     # @return [true, false]

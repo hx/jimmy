@@ -14,7 +14,7 @@ module Jimmy
       def load(file = source)
         file = Pathname(file)
         file = source.parent + file if file.relative?
-        instance_eval file.read, file.to_s
+        Jimmy::Schema(instance_eval file.read, file.to_s)
       end
     end
   end

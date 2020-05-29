@@ -32,7 +32,7 @@ module Jimmy
     def set_composite(name, schemas)
       assert_array schemas, minimum: 1
       schemas = schemas.map(&method(:cast_schema))
-      assert [ANYTHING, NOTHING].none? &schemas.method(:include?) do
+      assert schemas.none? { |s| s.anything? || s.nothing? } do
         'Absolutes make no sense in composites'
       end
       set name => schemas

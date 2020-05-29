@@ -6,7 +6,7 @@ module Jimmy
   describe Schema do
     describe 'declaration' do
       it 'is not possible on a frozen schema' do
-        expect { Schema::ANYTHING.null }
+        expect { Schema.new.freeze.null }
           .to raise_error FrozenError, /frozen Jimmy::Schema/
       end
 
@@ -64,7 +64,7 @@ module Jimmy
 
       describe '#nothing!' do
         it 'makes a reject-all schema' do
-          expect(described_class.new.nothing).to eq Schema::NOTHING
+          expect(described_class.new.nothing).to eq Jimmy.nothing
         end
       end
 
@@ -382,12 +382,12 @@ module Jimmy
 
       describe '!' do
         it 'turns anything into nothing' do
-          expect(!Schema.new).to eq Schema::NOTHING
+          expect(!Schema.new).to eq Jimmy.nothing
         end
 
         it 'turns nothing into anything' do
           expect(!!Schema.new) # rubocop:disable Style/DoubleNegation
-            .to eq Schema::ANYTHING
+            .to eq Schema.new
         end
 
         it 'returns the "not" schema if it and only it exists' do
@@ -444,7 +444,7 @@ module Jimmy
             '$id'     => 'file:///nada#',
             'not'     => true
           }
-          expect(Schema::NOTHING.as_json(id: 'file:///nada')).to eq expected
+          expect(Jimmy.nothing.as_json(id: 'file:///nada')).to eq expected
         end
       end
     end
@@ -489,7 +489,7 @@ module Jimmy
     end
 
     it 'inspects as mostly its JSON value' do
-      expect(Schema::NOTHING.inspect).to eq '#<Jimmy::Schema false>'
+      expect(Jimmy.nothing.inspect).to eq '#<Jimmy::Schema false>'
       expect(Jimmy.boolean.inspect).to eq '#<Jimmy::Schema {"type":"boolean"}>'
     end
   end

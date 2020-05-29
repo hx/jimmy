@@ -99,7 +99,7 @@ module Jimmy
     def validate_property_name(name)
       name = cast_key(name)
       assert_string name
-      return name unless get('additionalProperties', nil) == NOTHING
+      return name unless get('additionalProperties', nil) == Schema.new.nothing
 
       names    = get('properties') { {} }.keys
       patterns = get('patternProperties') { {} }.keys
