@@ -28,8 +28,8 @@ module Jimmy
 
     def top_level_json(id)
       hash = {
-        '$schema' => SCHEMA,
-        '$id'     => id.to_s
+        '$id'     => id.to_s,
+        '$schema' => SCHEMA
       }
       if nothing?
         hash['not'] = true

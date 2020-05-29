@@ -10,7 +10,7 @@ module Jimmy
     describe '#to_json' do
       it 'makes a JSON string' do
         expect(subject.to_json).to eq <<~JSON.strip
-          {"$schema":"#{Schema::SCHEMA}","$id":"http://foo#"}
+          {"$id":"http://foo#","$schema":"#{Schema::SCHEMA}"}
         JSON
       end
     end
