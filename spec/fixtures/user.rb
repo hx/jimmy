@@ -2,6 +2,6 @@
 
 struct(
   id:    ref('/uuid#'),
-  email: string.email!,
+  email: string.email,
   age:   13..
 )

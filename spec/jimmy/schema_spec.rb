@@ -6,7 +6,7 @@ module Jimmy
   describe Schema do
     describe 'declaration' do
       it 'is not possible on a frozen schema' do
-        expect { Schema::ANYTHING.null! }
+        expect { Schema::ANYTHING.null }
           .to raise_error FrozenError, /frozen Jimmy::Schema/
       end
 
@@ -70,7 +70,7 @@ module Jimmy
 
       describe '#require_all' do
         it 'makes all explicitly defined properties required' do
-          subject.object!.property('foo', Schema.new).require_all
+          subject.object.property('foo', Schema.new).require_all
           expect(subject.as_json).to eq(
             'type'       => 'object',
             'properties' => {
@@ -85,7 +85,7 @@ module Jimmy
         let :actual do
           j = Jimmy
           j.struct(
-            id:  j.string.length(2..).email!,
+            id:  j.string.length(2..).email,
             num: j.integer.range(4...10).multiple_of(2),
             arr: j.array.count(3..4).items(j.string).unique_items!
           ).nullable.not(false).properties(
@@ -210,7 +210,7 @@ module Jimmy
       end
 
       describe 'array items' do
-        before { subject.array! }
+        before { subject.array }
 
         it 'does not allow a single-item after a match-all' do
           subject.items true
@@ -264,7 +264,7 @@ module Jimmy
       end
 
       it 'yields schemas when making a single definition' do
-        subject.define :id, &:integer!
+        subject.define :id, &:integer
         expect(subject.dig('definitions', 'id', 'type')).to eq 'integer'
       end
 
@@ -294,12 +294,12 @@ module Jimmy
 
       describe 'string patterns' do
         it 'must be regular expressions' do
-          expect { subject.string!.pattern 'foo' }
+          expect { subject.string.pattern 'foo' }
             .to raise_error 'Expected String to be regular expression'
         end
 
         it 'must not have any options set' do
-          expect { subject.string!.pattern /foo/i }
+          expect { subject.string.pattern /foo/i }
             .to raise_error 'Expected /foo/i not to have any options'
         end
       end
@@ -313,7 +313,7 @@ module Jimmy
 
           foo = j.const('foo!')
           s.define 'foo', foo
-          s.object!.property 'myFoo', foo
+          s.object.property 'myFoo', foo
 
           bar = j.const('bar!')
           s.define 'a', j.schema.any_of([j.null, bar])
@@ -450,7 +450,7 @@ module Jimmy
 
     describe 'literal referencing' do
       it 'is not allowed on non-empty schemas' do
-        subject.null!
+        subject.null
         expect { subject.ref 'foo#' }.to raise_error /cannot have other prop/
       end
 

@@ -12,8 +12,8 @@ module Jimmy
       case value
       when true   then ANYTHING
       when false  then NOTHING
-      when Regexp then Schema.new.string!.pattern(value)
-      when Range  then Schema.new.number!.range(value)
+      when Regexp then Schema.new.string.pattern(value)
+      when Range  then Schema.new.number.range(value)
       when Schema then value
       else
         assert { "Expected #{value.class} to be a schema" }

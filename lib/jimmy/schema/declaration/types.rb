@@ -20,35 +20,35 @@ module Jimmy
 
     alias types type
 
-    # @!method array!
+    # @!method array
     #   Add 'array' to the schema types.
     #   @return [Jimmy::Schema] self, for chaining
-    # @!method boolean!
+    # @!method boolean
     #   Add 'boolean' to the schema types.
     #   @return [Jimmy::Schema] self, for chaining
-    # @!method integer!
+    # @!method integer
     #   Add 'integer' to the schema types.
     #   @return [Jimmy::Schema] self, for chaining
-    # @!method null!
+    # @!method null
     #   Add 'null' to the schema types.
     #   @return [Jimmy::Schema] self, for chaining
-    # @!method number!
+    # @!method number
     #   Add 'number' to the schema types.
     #   @return [Jimmy::Schema] self, for chaining
-    # @!method object!
+    # @!method object
     #   Add 'object' to the schema types.
     #   @return [Jimmy::Schema] self, for chaining
-    # @!method string!
+    # @!method string
     #   Add 'string' to the schema types.
     #   @return [Jimmy::Schema] self, for chaining
     SIMPLE_TYPES.each do |type|
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def #{type}!
+        def #{type}
           type '#{type}'
         end
       RUBY
     end
 
-    alias nullable null!
+    alias nullable null
   end
 end

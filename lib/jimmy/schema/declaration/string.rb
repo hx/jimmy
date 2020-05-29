@@ -76,8 +76,8 @@ module Jimmy
     # TODO: YARD
     FORMATS.each do |format|
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def #{format.gsub '-', '_'}!
-          string!
+        def #{format.gsub '-', '_'}
+          string
           format '#{format}'
         end
       RUBY

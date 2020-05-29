@@ -37,7 +37,7 @@ module Jimmy
     Schema::SIMPLE_TYPES.each do |type|
       module_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{type}
-          schema.#{type}!
+          schema.#{type}
         end
       RUBY
     end
@@ -47,7 +47,7 @@ module Jimmy
       format = format.gsub('-', '_')
       module_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{format}
-          schema.#{format}!
+          schema.#{format}
         end
       RUBY
     end
