@@ -60,8 +60,11 @@ module Jimmy
       [self.class, @uri].hash
     end
 
-    def as_json(*)
-      to_s
+    def as_json(id: nil, **)
+      return to_s unless id
+
+      id = JsonURI.new(id)
+      id.absolute? ? id.route_to(id + self).to_s : to_s
     end
 
     # @see URI::Generic#route_to

@@ -44,9 +44,10 @@ module Jimmy
     # Transform the collection into plain JSON-compatible objects.
     # @return [Hash, Array]
     def as_json(id: '', index: {})
-      return { '$ref' => index[object_id].to_s } if index.key? object_id
+      return index[object_id].as_json(id: id, index: {}) if index.key? object_id
 
-      index[object_id] = id = JsonURI.new(id)
+      id = JsonURI.new(id)
+      index[object_id] = Jimmy.ref(id)
 
       pairs = map do |key, value|
         if value.respond_to? :as_json

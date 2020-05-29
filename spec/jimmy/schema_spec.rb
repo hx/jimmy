@@ -277,6 +277,21 @@ module Jimmy
           .to eq 'a' => true, 'b' => false
       end
 
+      it 'renders refs relatively' do
+        foo    = Jimmy.string.pattern(/foo/)
+        schema = Jimmy.object
+          .define('foo', foo)
+          .properties(
+            a: foo,
+            b: Jimmy.ref('http://example.com/bar#/definitions/foo')
+          )
+        expect(schema.as_json id: 'http://example.com/bar')
+          .to include 'properties' => {
+            'a' => { '$ref' => '#/definitions/foo' },
+            'b' => { '$ref' => '#/definitions/foo' }
+          }
+      end
+
       describe 'string patterns' do
         it 'must be regular expressions' do
           expect { subject.string!.pattern 'foo' }
