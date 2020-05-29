@@ -6,17 +6,13 @@ module Jimmy
     # @param [true, false] unique Whether the array value should have unique
     #   items.
     # @return [self] self, for chaining
-    def unique_items(unique)
+    def unique_items(unique = true)
       valid_for 'array'
       assert_boolean unique
       set uniqueItems: unique
     end
 
-    # Set the uniqueItems property to true.
-    # @return [self] self, for chaining
-    def unique_items!
-      unique_items true
-    end
+    alias unique unique_items
 
     # Set the maximum items for an array value.
     # @param [Numeric] count The maximum items for an array value.

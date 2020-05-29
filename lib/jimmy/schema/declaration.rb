@@ -38,29 +38,17 @@ module Jimmy
     # Set whether the schema is read-only.
     # @param [true, false] is_read_only
     # @return [self] self, for chaining
-    def read_only(is_read_only)
+    def read_only(is_read_only = true)
       assert_boolean is_read_only
       set readOnly: is_read_only
-    end
-
-    # Set the schema to read-only.
-    # @return [self] self, for chaining
-    def read_only!
-      read_only true
     end
 
     # Set whether the schema is write-only.
     # @param [true, false] is_write_only
     # @return [self] self, for chaining
-    def write_only(is_write_only)
+    def write_only(is_write_only = true)
       assert_boolean is_write_only
       set writeOnly: is_write_only
-    end
-
-    # Set the schema to write-only.
-    # @return [self] self, for chaining
-    def write_only!
-      write_only true
     end
 
     # Set a constant value that will be expected to match exactly.
@@ -120,7 +108,7 @@ module Jimmy
 
     # Make the schema validate nothing (i.e. everything is invalid).
     # @return [self] self
-    def nothing!
+    def nothing
       clear
       @nothing = true
       self

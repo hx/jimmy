@@ -64,7 +64,7 @@ module Jimmy
 
       describe '#nothing!' do
         it 'makes a reject-all schema' do
-          expect(described_class.new.nothing!).to eq Schema::NOTHING
+          expect(described_class.new.nothing).to eq Schema::NOTHING
         end
       end
 
@@ -87,7 +87,7 @@ module Jimmy
           j.struct(
             id:  j.string.length(2..).email,
             num: j.integer.range(4...10).multiple_of(2),
-            arr: j.array.count(3..4).items(j.string).unique_items!
+            arr: j.array.count(3..4).items(j.string).unique_items
           ).nullable.not(false).properties(
             a_b: /foo/,
             ext: j.string.length(3),
@@ -109,8 +109,8 @@ module Jimmy
             .definitions(uuid: j.ref('uuid'))
             .property(:any, true, required: true)
             .description('test description')
-            .read_only!
-            .write_only(false).write_only!
+            .read_only
+            .write_only(false).write_only
             .enum([j.struct])
             .example('hello')
             .default({})
@@ -271,7 +271,7 @@ module Jimmy
       it 'yields new schemas when making multiple definitions' do
         subject.definitions a: true, b: nil do |name, schema|
           expect(name).to eq 'b'
-          schema.nothing!
+          schema.nothing
         end
         expect(subject.dig('definitions').as_json)
           .to eq 'a' => true, 'b' => false
