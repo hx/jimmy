@@ -8,7 +8,7 @@ module Jimmy
 
       # Serialize the collection as JSON.
       def to_json(**opts)
-        ::JSON.generate as_json, **opts
+        JSON.generate as_json, **opts
       end
 
       # @see Object#inspect

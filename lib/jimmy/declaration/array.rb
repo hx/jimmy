@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jimmy
   module Declaration
     # Set whether the array value is required to have unique items.

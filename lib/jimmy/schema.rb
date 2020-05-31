@@ -69,7 +69,8 @@ module Jimmy
 
     # Turns the schema into a reference to another schema. Freezes the schema
     # so that no further changes can be made.
-    # @param [Json::URI, URI, String] uri The URI of the JSON schema to reference.
+    # @param [Json::URI, URI, String] uri The URI of the JSON schema to
+    #   reference.
     # @return [self]
     def ref(uri)
       assert empty? do
