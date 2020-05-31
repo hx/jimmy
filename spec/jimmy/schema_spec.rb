@@ -24,7 +24,7 @@ module Jimmy
 
         it 'rejects unknown types' do
           expect { described_class.new :foobar }
-            .to raise_error TypeError, 'Unexpected Symbol'
+            .to raise_error Error::WrongType, 'Unexpected Symbol'
         end
       end
 
@@ -484,7 +484,7 @@ module Jimmy
 
       it 'rejects bad $schema values' do
         expect { subject['$schema'] = 'http://example.com/bad#' }
-          .to raise_error ArgumentError, /Unsupported/
+          .to raise_error Error::BadArgument, /Unsupported/
       end
     end
 

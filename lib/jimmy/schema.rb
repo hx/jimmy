@@ -32,7 +32,7 @@ module Jimmy
         super({})
         apply_cast self, schema
       when Hash then super
-      else raise TypeError, "Unexpected #{schema.class}"
+      else raise Error::WrongType, "Unexpected #{schema.class}"
       end
       yield self if block_given?
     end
@@ -57,7 +57,7 @@ module Jimmy
       when '$ref' then ref value
       when '$schema'
         URI(value) == URI(SCHEMA) or
-          raise ArgumentError, 'Unsupported JSON schema draft'
+          raise Error::BadArgument, 'Unsupported JSON schema draft'
       when '$comment' then @comment = value # TODO: something, with this
       else super
       end

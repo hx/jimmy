@@ -49,7 +49,7 @@ module Jimmy
 
     it 'expects resolvers to respond to :resolve' do
       expect { Jimmy.schemer schema, -> {} }
-        .to raise_error ArgumentError, /responding to :resolve/
+        .to raise_error Error::BadArgument, /responding to :resolve/
     end
 
     it 'can step through multiple resolvers' do

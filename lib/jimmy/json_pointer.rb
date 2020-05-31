@@ -12,7 +12,7 @@ module Jimmy
         when Array, JsonPointer then path.to_a
         when String then parse(path)
         else
-          raise TypeError, "Unexpected #{path.class}"
+          raise Error::WrongType, "Unexpected #{path.class}"
         end
     end
 
@@ -35,10 +35,10 @@ module Jimmy
 
     def shed(count)
       unless count.is_a?(Integer) && !count.negative?
-        raise ArgumentError, 'Expected a non-negative integer'
+        raise Error::BadArgument, 'Expected a non-negative integer'
       end
       return dup if count.zero?
-      raise ArgumentError, 'Out of range' if count > @path.length
+      raise Error::BadArgument, 'Out of range' if count > @path.length
 
       self.class.new @path[0..(-count - 1)]
     end
@@ -82,7 +82,7 @@ module Jimmy
       return [''] if path == '/'
 
       unless path[0] == '/'
-        raise ArgumentError, 'JSON pointers should start with /'
+        raise Error::BadArgument, 'JSON pointers should start with /'
       end
 
       path[1..].split('/').map { |str| str.gsub *UNESCAPE }

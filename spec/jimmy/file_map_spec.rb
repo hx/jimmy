@@ -6,7 +6,7 @@ module Jimmy
 
     it "rejects directories that aren't directories" do
       expect { described_class.new 'jimmy.gemspec', 'file:///' }
-        .to raise_error ArgumentError, /directory/
+        .to raise_error Error::BadArgument, /directory/
     end
 
     it 'uses file URIs by default' do

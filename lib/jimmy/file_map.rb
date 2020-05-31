@@ -53,7 +53,7 @@ module Jimmy
     )
       @dir = Pathname(base_dir).realpath
       unless @dir.directory? && @dir.readable?
-        raise ArgumentError, 'Expected a readable directory'
+        raise Error::BadArgument, 'Expected a readable directory'
       end
 
       base_uri ||= uri_for_dir
@@ -126,7 +126,7 @@ module Jimmy
       uri = @uri.route_to(@uri + uri)
 
       unless uri.host.nil? && !uri.path.match?(%r{\A(\.\.|/)})
-        raise ArgumentError, 'The given URI is outside this FileMap'
+        raise Error::BadArgument, 'The given URI is outside this FileMap'
       end
 
       uri.path += @suffix unless uri.path.end_with? @suffix

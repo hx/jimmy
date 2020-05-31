@@ -75,7 +75,7 @@ module Jimmy
       when Array, Set then JsonArray.new(value)
       else
         unless value.respond_to? :as_json
-          raise TypeError, "Incompatible JSON type #{value.class}"
+          raise Error::WrongType, "Incompatible JSON type #{value.class}"
         end
 
         value.as_json

@@ -18,12 +18,12 @@ module Jimmy
     describe '#resolve' do
       it 'rejects relative URIs' do
         expect { subject.resolve '/foo' }
-          .to raise_error ArgumentError, /relative URIs/
+          .to raise_error Error::BadArgument, /relative URIs/
       end
 
       it 'rejects URIs that do not match its own' do
         expect { subject.resolve 'http://bar#' }
-          .to raise_error ArgumentError, /Wrong URI base/
+          .to raise_error Error::BadArgument, /Wrong URI base/
       end
     end
   end

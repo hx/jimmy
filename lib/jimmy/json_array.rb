@@ -58,7 +58,7 @@ module Jimmy
 
     def cast_key(key)
       unless key.is_a? Integer
-        raise TypeError, "Invalid array index of type #{key.class}"
+        raise Error::WrongType, "Invalid array index of type #{key.class}"
       end
 
       key

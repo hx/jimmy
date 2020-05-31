@@ -80,7 +80,7 @@ module Jimmy
       key = key.to_s.gsub(/_(.)/) { $1.upcase } if key.is_a? Symbol
 
       unless key.is_a? String
-        raise TypeError, "Invalid hash key of type #{key.class}"
+        raise Error::WrongType, "Invalid hash key of type #{key.class}"
       end
 
       key.strip

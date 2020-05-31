@@ -16,7 +16,7 @@ module Jimmy
     # @return [Jimmy::SchemaWithURI, nil]
     def resolve(uri)
       uri = JsonURI.new(uri)
-      raise ArgumentError, 'Cannot resolve relative URIs' if uri.relative?
+      raise Error::BadArgument, 'Cannot resolve relative URIs' if uri.relative?
 
       return @by_uri[uri] if @by_uri.key? uri
       return if uri.pointer.empty?
@@ -31,8 +31,8 @@ module Jimmy
     # @return [self] self, for chaining
     def add(uri, schema)
       uri = JsonURI.new(uri)
-      raise ArgumentError, 'Expected a schema' unless schema.is_a? Schema
-      raise ArgumentError, 'Cannot index relative URIs' if uri.relative?
+      raise Error::BadArgument, 'Expected a schema' unless schema.is_a? Schema
+      raise Error::BadArgument, 'Cannot index relative URIs' if uri.relative?
 
       push SchemaWithURI.new(uri, schema)
     end
@@ -44,7 +44,7 @@ module Jimmy
     def push(*schemas_with_uris)
       schemas_with_uris.each do |schema_with_uri|
         unless schema_with_uri.is_a? SchemaWithURI
-          raise ArgumentError, 'Expected a SchemaWithURI'
+          raise Error::BadArgument, 'Expected a SchemaWithURI'
         end
 
         @by_uri[schema_with_uri.uri] = schema_with_uri

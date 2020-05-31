@@ -4,12 +4,12 @@ module Jimmy
   describe JsonHash do
     it 'does not allow numeric keys' do
       expect { subject[123] = true }
-        .to raise_error TypeError, 'Invalid hash key of type Integer'
+        .to raise_error Error::WrongType, 'Invalid hash key of type Integer'
     end
 
     it 'does not allow values that cannot be represented as JSON' do
       expect { subject['abc'] = :abc }
-        .to raise_error TypeError, 'Incompatible JSON type Symbol'
+        .to raise_error Error::WrongType, 'Incompatible JSON type Symbol'
     end
 
     it 'converts symbol keys to camel case strings' do

@@ -51,7 +51,7 @@ module Jimmy
       end
 
       unless resolver.respond_to? :resolve
-        raise ArgumentError, 'Expected an object responding to :resolve'
+        raise Error::BadArgument, 'Expected an object responding to :resolve'
       end
 
       resolver

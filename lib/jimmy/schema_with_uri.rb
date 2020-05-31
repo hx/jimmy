@@ -25,8 +25,8 @@ module Jimmy
 
     def resolve(uri)
       uri = JsonURI.new(uri)
-      raise ArgumentError, 'Cannot resolve relative URIs' if uri.relative?
-      raise ArgumentError, 'Wrong URI base' unless uri + '#' == @uri + '#'
+      raise Error::BadArgument, 'Cannot resolve relative URIs' if uri.relative?
+      raise Error::BadArgument, 'Wrong URI base' unless uri + '#' == @uri + '#'
 
       pointer = uri.pointer.remove_prefix(@uri.pointer) or return
 

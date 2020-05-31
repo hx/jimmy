@@ -58,7 +58,7 @@ module Jimmy
       end
 
       it 'cannot go negative' do
-        expect { subject - 3 }.to raise_error ArgumentError, /Out of range/
+        expect { subject - 3 }.to raise_error Error::BadArgument, /Out of range/
       end
 
       it 'works with join using negatives' do
@@ -84,11 +84,11 @@ module Jimmy
     end
 
     it 'does not accept symbols' do
-      expect { JsonPointer.new :foobar }.to raise_error TypeError
+      expect { JsonPointer.new :foobar }.to raise_error Error::WrongType
     end
 
     it 'does not accept strings that do not start with a slash' do
-      expect { JsonPointer.new 'foobar' }.to raise_error ArgumentError
+      expect { JsonPointer.new 'foobar' }.to raise_error Error::BadArgument
     end
 
     describe '#inspect' do
