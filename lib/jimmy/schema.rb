@@ -2,12 +2,12 @@
 
 require 'json'
 
-require 'jimmy/json_hash'
+require 'jimmy/json/hash'
 require 'jimmy/declaration'
 
 module Jimmy
   # Represents a schema as defined by http://json-schema.org/draft-07/schema
-  class Schema < JsonHash
+  class Schema < Json::Hash
     include Declaration
 
     PROPERTIES = %w[

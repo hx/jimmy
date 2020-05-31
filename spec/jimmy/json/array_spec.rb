@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  describe JsonArray do
+  describe Json::Array do
     describe '#each' do
       it 'can iterate over just its members' do
         subject << 1

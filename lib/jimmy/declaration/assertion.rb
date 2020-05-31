@@ -71,7 +71,7 @@ module Jimmy
     def type?(*types)
       types.each &method(:assert_simple_type)
       existing = get('type', nil)
-      if existing.is_a? JsonArray
+      if existing.is_a? Json::Array
         (existing.to_a & types).any?
       else
         types.include? existing

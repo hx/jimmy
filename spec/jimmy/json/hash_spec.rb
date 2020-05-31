@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  describe JsonHash do
+  describe Json::Hash do
     it 'does not allow numeric keys' do
       expect { subject[123] = true }
         .to raise_error Error::WrongType, 'Invalid hash key of type Integer'
