@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema
+  module Declaration
     # Set the number of which the value should be a multiple.
     # @param [Numeric] number The number to set as the multipleOf value
     # @return [self] self, for chaining

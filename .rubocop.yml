@@ -42,6 +42,7 @@ Style/Documentation:
   Exclude:
     - spec/**/*_spec.rb
     - lib/jimmy/schema/**/*.rb
+    - lib/jimmy/declaration/**/*.rb
 
 Style/FormatString:
   EnforcedStyle: percent

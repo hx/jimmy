@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema
+  module Declaration
     # Define a property for an object value.
     # @param [String, Symbol] name The name of the property.
     # @param [Jimmy::Schema] schema The schema for the property. If

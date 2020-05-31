@@ -3,7 +3,7 @@
 require 'jimmy/error'
 
 module Jimmy
-  class Schema
+  module Declaration
     BOOLEANS = Set.new([true, false]).freeze
 
     private

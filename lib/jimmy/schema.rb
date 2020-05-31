@@ -3,10 +3,13 @@
 require 'json'
 
 require 'jimmy/json_hash'
+require 'jimmy/declaration'
 
 module Jimmy
   # Represents a schema as defined by http://json-schema.org/draft-07/schema
   class Schema < JsonHash
+    include Declaration
+
     PROPERTIES = %w[
       title description default readOnly writeOnly examples
       multipleOf maximum exclusiveMaximum minimum exclusiveMinimum
@@ -64,14 +67,56 @@ module Jimmy
       "#<#{self.class} #{super}>"
     end
 
+    # Turns the schema into a reference to another schema. Freezes the schema
+    # so that no further changes can be made.
+    # @param [JsonURI, URI, String] uri The URI of the JSON schema to reference.
+    # @return [self]
+    def ref(uri)
+      assert empty? do
+        'Reference schemas cannot have other properties: ' +
+          keys.join(', ')
+      end
+      @members['$ref'] = JsonURI.new(uri)
+      freeze
+    end
+
+    # Make the schema validate nothing (i.e. everything is invalid).
+    # @return [self] self
+    def nothing
+      clear
+      @nothing = true
+      self
+    end
+
+    # Get the URI of the schema to which this schema refers, or nil if the
+    # schema is not a reference.
+    # @return [JsonURI, nil]
+    def target
+      self['$ref']
+    end
+
+    # Returns true if the schema refers to another schema.
+    # @return [true, false]
+    def ref?
+      key? '$ref'
+    end
+
+    alias get fetch
+
     PROPERTY_SEQUENCE = PROPERTIES.each.with_index.to_h.freeze
 
     def sort_keys_by(key, _value) # :nodoc:
       PROPERTY_SEQUENCE.fetch(key) { raise KeyError, 'Not a valid schema key' }
     end
+
+    protected
+
+    def schema
+      self
+    end
   end
 end
 
-require 'jimmy/schema/declaration'
 require 'jimmy/schema/operators'
 require 'jimmy/schema/json'
+require 'jimmy/schema/casting'

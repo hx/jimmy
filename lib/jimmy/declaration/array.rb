@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 module Jimmy
-  class Schema
+  module Declaration
     # Set whether the array value is required to have unique items.
     # @param [true, false] unique Whether the array value should have unique
     #   items.

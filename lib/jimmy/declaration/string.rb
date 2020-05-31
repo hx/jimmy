@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  class Schema
+  module Declaration
     FORMATS = Set.new(
       %w[
         date-time

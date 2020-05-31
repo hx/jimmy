@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
-require 'jimmy/schema/assertion'
-require 'jimmy/schema/casting'
-require 'jimmy/schema/declaration/array'
-require 'jimmy/schema/declaration/number'
-require 'jimmy/schema/declaration/object'
-require 'jimmy/schema/declaration/string'
-require 'jimmy/schema/declaration/types'
-require 'jimmy/schema/declaration/composites'
-require 'jimmy/schema/declaration/reference'
+require 'jimmy/declaration/array'
+require 'jimmy/declaration/composites'
+require 'jimmy/declaration/number'
+require 'jimmy/declaration/object'
+require 'jimmy/declaration/string'
+require 'jimmy/declaration/types'
+
+require 'jimmy/declaration/assertion'
+require 'jimmy/declaration/casting'
 
 module Jimmy
-  class Schema
+  # Contains methods for declaring or modifying schemas.
+  module Declaration
     # Set the title of the schema.
     # @param [String] title The title of the schema.
     # @return [self] self, for chaining
@@ -106,25 +107,13 @@ module Jimmy
       set not: cast_schema(schema)
     end
 
-    # Make the schema validate nothing (i.e. everything is invalid).
-    # @return [self] self
-    def nothing
-      clear
-      @nothing = true
-      self
-    end
-
     private
 
-    # @return [self]
     def set(props)
-      # Trigger a FrozenError on self instead of the properties hash
-      @a = 1 if frozen?
-      props.each { |k, v| self[k.to_s] = v }
-      self
+      s = schema
+      props.each { |k, v| s[k.to_s] = v }
+      s
     end
-
-    alias get fetch
 
     def getset(name)
       set name => yield unless key? name
