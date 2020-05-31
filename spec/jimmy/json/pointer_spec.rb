@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  describe JsonPointer do
+  describe Json::Pointer do
     describe 'parsing and stringification' do
       cases = {
         ''          => [],
@@ -26,7 +26,7 @@ module Jimmy
     describe 'joining' do
       subject { described_class.new '/foo' }
 
-      let(:foobar) { JsonPointer.new '/foo/bar' }
+      let(:foobar) { Json::Pointer.new '/foo/bar' }
 
       it 'can join strings' do
         expect(subject + '/bar').to eq foobar
@@ -37,7 +37,7 @@ module Jimmy
       end
 
       it 'accepts other pointers' do
-        expect(subject + JsonPointer.new('/bar')).to eq foobar
+        expect(subject + Json::Pointer.new('/bar')).to eq foobar
       end
 
       it 'accepts arrays' do
@@ -49,12 +49,12 @@ module Jimmy
       subject { described_class.new '/foo/bar' }
 
       it 'removes segments' do
-        expect(subject - 1).to eq JsonPointer.new('/foo')
-        expect(subject - 2).to eq JsonPointer.new('')
+        expect(subject - 1).to eq Json::Pointer.new('/foo')
+        expect(subject - 2).to eq Json::Pointer.new('')
       end
 
       it 'can no-op' do
-        expect(subject - 0).to eq JsonPointer.new('/foo/bar')
+        expect(subject - 0).to eq Json::Pointer.new('/foo/bar')
       end
 
       it 'cannot go negative' do
@@ -62,7 +62,7 @@ module Jimmy
       end
 
       it 'works with join using negatives' do
-        expect(subject.join -1).to eq JsonPointer.new('/foo')
+        expect(subject.join -1).to eq Json::Pointer.new('/foo')
       end
 
       it 'rejects non-integer values' do
@@ -84,24 +84,24 @@ module Jimmy
     end
 
     it 'does not accept symbols' do
-      expect { JsonPointer.new :foobar }.to raise_error Error::WrongType
+      expect { Json::Pointer.new :foobar }.to raise_error Error::WrongType
     end
 
     it 'does not accept strings that do not start with a slash' do
-      expect { JsonPointer.new 'foobar' }.to raise_error Error::BadArgument
+      expect { Json::Pointer.new 'foobar' }.to raise_error Error::BadArgument
     end
 
     describe '#inspect' do
       it 'includes the path' do
-        expect(JsonPointer.new('/foo').inspect)
-          .to eq '#<Jimmy::JsonPointer /foo>'
+        expect(Json::Pointer.new('/foo').inspect)
+          .to eq '#<Jimmy::Json::Pointer /foo>'
       end
     end
 
     describe '#empty?' do
       it 'is true for an empty instance' do
-        expect(JsonPointer.new('')).to be_empty
-        expect(JsonPointer.new('/')).not_to be_empty
+        expect(Json::Pointer.new('')).to be_empty
+        expect(Json::Pointer.new('/')).not_to be_empty
       end
     end
   end

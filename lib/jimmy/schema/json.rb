@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'jimmy/json_pointer'
-
 module Jimmy
   class Schema
     # The JSON Schema draft 7 schema URI

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'jimmy/json_pointer'
+require 'jimmy/json/pointer'
 
 module Jimmy
   # Wraps the URI class to provide additional functionality.
@@ -18,12 +18,12 @@ module Jimmy
     end
 
     def pointer
-      JsonPointer.new URI.decode_www_form_component(fragment)
+      Json::Pointer.new URI.decode_www_form_component(fragment)
     end
 
     def pointer=(value)
       # Loosely based on URI.encode_www_form_component
-      fragment = JsonPointer.new(value).to_s.dup
+      fragment = Json::Pointer.new(value).to_s.dup
       fragment.force_encoding Encoding::ASCII_8BIT
       fragment.gsub!(FRAGMENT_ESCAPING) { |chr| '%%%02X' % chr.ord }
       fragment.force_encoding Encoding::US_ASCII

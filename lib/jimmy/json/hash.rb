@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'jimmy/json/collection'
+require 'jimmy/json/pointer'
 
 module Jimmy
   module Json
@@ -49,10 +50,10 @@ module Jimmy
         @members.keys
       end
 
-      # @param [Jimmy::JsonPointer, String] json_pointer
+      # @param [Jimmy::Json::Pointer, String] json_pointer
       # @return [Jimmy::Collection, nil]
       def get_fragment(json_pointer)
-        json_pointer = JsonPointer.new(json_pointer)
+        json_pointer = Pointer.new(json_pointer)
         return self if json_pointer.empty?
 
         dig *json_pointer.to_a
