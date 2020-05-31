@@ -7,10 +7,10 @@ module Jimmy
 
     # Get the schema as a plain Hash. Given an +id+, the +$id+ and +$schema+
     # keys will also be set.
-    # @param [JsonURI, URI, String] id
+    # @param [Json::URI, URI, String] id
     # @return [Hash, true, false]
     def as_json(id: '', index: nil)
-      id = JsonURI.new(id)
+      id = Json::URI.new(id)
 
       if index.nil? && id.absolute?
         return top_level_json(id) { super index: {}, id: id }

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Jimmy
-  describe JsonURI do
+  describe Json::URI do
     subject { described_class.new '' }
 
     describe 'with the :container option set' do
@@ -14,7 +14,7 @@ module Jimmy
     describe '#inspect' do
       it 'focuses on the URI' do
         expect(described_class.new('http://foo.com/bar#/baz').inspect)
-          .to eq '#<Jimmy::JsonURI http://foo.com/bar#/baz>'
+          .to eq '#<Jimmy::Json::URI http://foo.com/bar#/baz>'
       end
     end
 

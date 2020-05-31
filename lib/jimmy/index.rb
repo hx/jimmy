@@ -12,10 +12,10 @@ module Jimmy
       @by_uri = {}
     end
 
-    # @param [JsonURI, URI, String] uri
+    # @param [Json::URI, URI, String] uri
     # @return [Jimmy::SchemaWithURI, nil]
     def resolve(uri)
-      uri = JsonURI.new(uri)
+      uri = Json::URI.new(uri)
       raise Error::BadArgument, 'Cannot resolve relative URIs' if uri.relative?
 
       return @by_uri[uri] if @by_uri.key? uri
@@ -26,11 +26,11 @@ module Jimmy
 
     alias [] resolve
 
-    # @param [JsonURI, URI, String] uri
+    # @param [Json::URI, URI, String] uri
     # @param [Jimmy::Schema] schema
     # @return [self] self, for chaining
     def add(uri, schema)
-      uri = JsonURI.new(uri)
+      uri = Json::URI.new(uri)
       raise Error::BadArgument, 'Expected a schema' unless schema.is_a? Schema
       raise Error::BadArgument, 'Cannot index relative URIs' if uri.relative?
 
@@ -54,14 +54,14 @@ module Jimmy
 
     alias << push
 
-    # @return [Array<JsonURI>]
+    # @return [Array<Json::URI>]
     def uris
       @by_uri.keys
     end
 
     alias keys uris
 
-    # @param [JsonURI, URI, String] uri
+    # @param [Json::URI, URI, String] uri
     # @return [true, false]
     def uri?(uri)
       !resolve(uri).nil?

@@ -5,7 +5,7 @@ require 'jimmy/version'
 require 'jimmy/schema'
 require 'jimmy/macros'
 require 'jimmy/file_map'
-require 'jimmy/json_uri'
+require 'jimmy/json/uri'
 
 # Jimmy makes declaring and validating against JSON schemas a piece of cake.
 module Jimmy

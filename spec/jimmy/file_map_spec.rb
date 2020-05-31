@@ -2,7 +2,7 @@
 
 module Jimmy
   describe FileMap do
-    let(:uri) { JsonURI.new 'http://example.com' }
+    let(:uri) { Json::URI.new 'http://example.com' }
 
     it "rejects directories that aren't directories" do
       expect { described_class.new 'jimmy.gemspec', 'file:///' }
@@ -42,15 +42,15 @@ module Jimmy
       it 'can resolve relative URIs' do
         user = subject.resolve('user')
         expect(user).to be_a SchemaWithURI
-        expect(user.uri).to eq JsonURI.new('http://example.com/user#')
+        expect(user.uri).to eq Json::URI.new('http://example.com/user#')
         expect(user.schema['type']).to eq 'object'
       end
 
       it 'can produce an index' do
         expect(subject.index).to be_an Index
         expect(subject.index.keys).to eq [
-          JsonURI.new('http://example.com/user#'),
-          JsonURI.new('http://example.com/uuid#')
+          Json::URI.new('http://example.com/user#'),
+          Json::URI.new('http://example.com/uuid#')
         ]
       end
 
@@ -61,7 +61,7 @@ module Jimmy
 
         it 'adds the suffix to URIs' do
           expect(subject.index)
-            .to have_key JsonURI.new('http://example.com/user.json#')
+            .to have_key Json::URI.new('http://example.com/user.json#')
         end
 
         it 'can resolve with or without the suffix' do
@@ -86,15 +86,15 @@ module Jimmy
       it 'can resolve relative URIs' do
         user = subject.resolve('user')
         expect(user).to be_a SchemaWithURI
-        expect(user.uri).to eq JsonURI.new('http://example.com/user#')
+        expect(user.uri).to eq Json::URI.new('http://example.com/user#')
         expect(user.schema['type']).to eq 'object'
       end
 
       it 'can produce an index' do
         expect(subject.index).to be_an Index
         expect(subject.index.keys).to eq [
-          JsonURI.new('http://example.com/user#'),
-          JsonURI.new('http://example.com/uuid#')
+          Json::URI.new('http://example.com/user#'),
+          Json::URI.new('http://example.com/uuid#')
         ]
       end
 
@@ -105,7 +105,7 @@ module Jimmy
 
         it 'adds the suffix to URIs' do
           expect(subject.index)
-            .to have_key JsonURI.new('http://example.com/user.json#')
+            .to have_key Json::URI.new('http://example.com/user.json#')
         end
 
         it 'can resolve with or without the suffix' do

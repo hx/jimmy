@@ -31,7 +31,7 @@ module Jimmy
 
     # @param [Pathname, String] base_dir The directory that should map to the
     #   given URI.
-    # @param [JsonURI, URI, String] base_uri The URI that should resolve to
+    # @param [Json::URI, URI, String] base_uri The URI that should resolve to
     #   the given directory. If omitted, a +file://+ URI will be used for the
     #   absolute path of the given directory.
     # @param [true, false] live When true, schemas are not stored in memory, and
@@ -57,7 +57,7 @@ module Jimmy
       end
 
       base_uri ||= uri_for_dir
-      @uri = JsonURI.new(base_uri.to_s, container: true)
+      @uri = Json::URI.new(base_uri.to_s, container: true)
 
       @live    = live
       @loaders = loaders
@@ -68,7 +68,7 @@ module Jimmy
 
     # Given a URI, either absolute or relative to the file map's base URI,
     # returns a {SchemaWithURI} if a matching schema is found.
-    # @param [JsonURI, URI, String] uri
+    # @param [Json::URI, URI, String] uri
     # @return [Jimmy::SchemaWithURI, nil]
     def resolve(uri)
       uri          = make_child_uri(uri)
@@ -113,7 +113,7 @@ module Jimmy
     end
 
     def uri_for_dir
-      JsonURI.new 'file://' + fs_to_rfc3968(@dir)
+      Json::URI.new 'file://' + fs_to_rfc3968(@dir)
     end
 
     def path_for_uri(uri)
@@ -152,7 +152,7 @@ module Jimmy
         .to_s
         .sub(/\.[^.]+\z/, '')
 
-      JsonURI.new fs_to_rfc3968(path) + @suffix
+      Json::URI.new fs_to_rfc3968(path) + @suffix
     end
 
     def fs_to_rfc3968(path)

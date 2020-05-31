@@ -6,7 +6,7 @@ module Jimmy
     attr_reader :uri, :schema
 
     def initialize(uri, schema)
-      @uri    = JsonURI.new(uri)
+      @uri    = Json::URI.new(uri)
       @schema = schema
       freeze
     end
@@ -24,7 +24,7 @@ module Jimmy
     end
 
     def resolve(uri)
-      uri = JsonURI.new(uri)
+      uri = Json::URI.new(uri)
       raise Error::BadArgument, 'Cannot resolve relative URIs' if uri.relative?
       raise Error::BadArgument, 'Wrong URI base' unless uri + '#' == @uri + '#'
 

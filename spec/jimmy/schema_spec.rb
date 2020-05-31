@@ -457,7 +457,7 @@ module Jimmy
 
       it 'can be accessed with #target' do
         subject.ref 'a'
-        expect(subject.target).to eq JsonURI.new('a#')
+        expect(subject.target).to eq Json::URI.new('a#')
       end
 
       it 'sets the ref? predicate' do
@@ -479,7 +479,7 @@ module Jimmy
       it 'accepts $ref' do
         uri             = 'http://example.com/foo#'
         subject['$ref'] = uri
-        expect(subject.target).to eq JsonURI.new(uri)
+        expect(subject.target).to eq Json::URI.new(uri)
       end
 
       it 'rejects bad $schema values' do

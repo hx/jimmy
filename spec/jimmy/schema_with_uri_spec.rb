@@ -3,7 +3,7 @@
 module Jimmy
   describe SchemaWithURI do
     let(:schema) { Schema.new }
-    let(:uri) { JsonURI.new 'http://foo#' }
+    let(:uri) { Json::URI.new 'http://foo#' }
 
     subject { described_class.new uri, schema }
 

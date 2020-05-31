@@ -69,14 +69,14 @@ module Jimmy
 
     # Turns the schema into a reference to another schema. Freezes the schema
     # so that no further changes can be made.
-    # @param [JsonURI, URI, String] uri The URI of the JSON schema to reference.
+    # @param [Json::URI, URI, String] uri The URI of the JSON schema to reference.
     # @return [self]
     def ref(uri)
       assert empty? do
         'Reference schemas cannot have other properties: ' +
           keys.join(', ')
       end
-      @members['$ref'] = JsonURI.new(uri)
+      @members['$ref'] = Json::URI.new(uri)
       freeze
     end
 
@@ -90,7 +90,7 @@ module Jimmy
 
     # Get the URI of the schema to which this schema refers, or nil if the
     # schema is not a reference.
-    # @return [JsonURI, nil]
+    # @return [Json::URI, nil]
     def target
       self['$ref']
     end

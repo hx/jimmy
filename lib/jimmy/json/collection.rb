@@ -47,7 +47,7 @@ module Jimmy
       def as_json(id: '', index: {})
         return index[object_id].as_json(id: id, index: {}) if index[object_id]
 
-        id = JsonURI.new(id)
+        id = Json::URI.new(id)
         index[object_id] = Jimmy.ref(id)
 
         pairs = map do |key, value|
