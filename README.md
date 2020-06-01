@@ -7,7 +7,7 @@ Version 2 of the Ruby gem for making JSON schemas the nice way.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'jimmy'
+gem 'jimmy', '~> 2.0.0-alpha.1'
 ```
 
 And then execute:
@@ -20,13 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-```ruby
-schema = Jimmy.schema do |s|
-  s.object!.require(id: Jimmy.schema.string!)
-end
-
-puts schema.to_json
-```
+Check the [docs](https://rubydoc.info/gems/jimmy/2.0.0-alpha.1).
 
 ## Development
 
