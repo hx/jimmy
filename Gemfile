@@ -10,3 +10,7 @@ gem 'rake', '~> 12.0'
 gem 'rspec', '~> 3.9'
 gem 'rubocop', '~> 0.83'
 gem 'simplecov', '~> 0.18.5'
+
+group :ci do
+  gem 'rspec_junit_formatter', '~> 0.4.1'
+end

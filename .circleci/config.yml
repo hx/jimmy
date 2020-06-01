@@ -1,0 +1,35 @@
+version: 2.1
+
+jobs:
+  specs:
+    docker:
+      - image: cimg/ruby:2.6
+    steps:
+      - checkout
+      - run:
+          name: Bundle Install
+          command: bundle install --with ci
+      - run:
+          name: RSpec
+          command: bundle exec rspec --format documentation --format RspecJunitFormatter --out /tmp/rspec.xml
+      - store_test_results:
+          path: /tmp/rspec.xml
+
+  lint:
+    docker:
+      - image: cimg/ruby:2.6
+    steps:
+      - checkout
+      - run:
+          name: Bundle Install
+          command: bundle install --with ci
+      - run:
+          name: RSpec
+          command: bundle exec rubocop
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - specs
+      - lint
