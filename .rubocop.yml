@@ -9,6 +9,7 @@ Layout/HashAlignment:
   EnforcedColonStyle: table
 
 Layout/LineLength:
+  Max: 80
   IgnoredPatterns:
     - '\A\s*# {3}' # Examples in YARD
 
