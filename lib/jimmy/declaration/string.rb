@@ -36,8 +36,7 @@ module Jimmy
     FORMATS.each do |format|
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{format.gsub '-', '_'}
-          string
-          format '#{format}'
+          string.format '#{format}'
         end
       RUBY
     end

@@ -85,7 +85,7 @@ module Jimmy
         let :actual do
           j = Jimmy
           j.struct.require(
-            id:  j.string.length(2..).email,
+            id:  j.email.length(2..),
             num: j.range(4...10).multiple_of(2),
             arr: j.array.count(3..4).unique.items(j.string)
           ).nullable.not(false).allow(
