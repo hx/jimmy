@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jimmy
   class Schema
     # Define a property for an object value.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Jimmy
   class Schema
     # Set the maximum length for a string value.
