@@ -17,7 +17,6 @@ module Jimmy
     # @param [Object] value
     # @return [Jimmy::Schema]
     def cast_schema(value)
-      # TODO
       case value
       when *CASTABLE_CLASSES then apply_cast(Schema.new, value)
       when Schema then value
