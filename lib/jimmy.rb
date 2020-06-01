@@ -18,6 +18,10 @@ module Jimmy
     SchemerFactory.new(*args, **opts).schemer
   end
 
+  # Passes +schema+ to {Schema.new}, unless it is already a {Schema}, in which
+  # case it is returned unmodified.
+  # @param [Schema, Object] schema
+  # @return [Schema]
   def self.Schema(schema) # rubocop:disable Naming/MethodName
     schema.is_a?(Schema) ? schema : Schema.new(schema)
   end

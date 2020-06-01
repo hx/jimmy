@@ -15,10 +15,15 @@ module Jimmy
       Schema.new &block
     end
 
+    # Make a schema that never validates.
+    # @return [Schema] The new schema.
     def nothing
       schema.nothing
     end
 
+    # Make a schema that references another schema by URI.
+    # @param [String, URI, Json::URI] uri
+    # @return [Schema] The new schema.
     def ref(uri)
       schema.ref uri
     end

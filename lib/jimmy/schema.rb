@@ -49,6 +49,9 @@ module Jimmy
       !@nothing && empty?
     end
 
+    # Set a property of the schema.
+    # @param [String, Symbol] key Symbols are converted to camel-case strings.
+    # @param [Object] value
     def []=(key, value)
       @nothing = false
 
@@ -63,6 +66,7 @@ module Jimmy
       end
     end
 
+    # @see ::Object#inspect
     def inspect
       "#<#{self.class} #{super}>"
     end
@@ -106,6 +110,7 @@ module Jimmy
 
     PROPERTY_SEQUENCE = PROPERTIES.each.with_index.to_h.freeze
 
+    # @api private
     def sort_keys_by(key, _value) # :nodoc:
       PROPERTY_SEQUENCE.fetch(key) { raise KeyError, 'Not a valid schema key' }
     end

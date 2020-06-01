@@ -44,6 +44,9 @@ Style/Documentation:
     - lib/jimmy/schema/**/*.rb
     - lib/jimmy/declaration/**/*.rb
 
+Style/DocumentationMethod:
+  Enabled: true
+
 Style/FormatString:
   EnforcedStyle: percent
 

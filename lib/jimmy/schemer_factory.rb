@@ -36,6 +36,8 @@ module Jimmy
       @schemer ||= JSONSchemer.schema(@schema.as_json, **@options)
     end
 
+    # @param [String, URI, Json::URI] uri
+    # @return [Hash{String => Object}, nil]
     def resolve(uri)
       @resolvers.each do |resolver|
         return resolver.call(uri) unless resolver.respond_to? :resolve
@@ -43,7 +45,10 @@ module Jimmy
         schema = resolver.resolve(uri)
         return schema.as_json if schema
       end
+      nil
     end
+
+    private
 
     def cast_resolver(resolver)
       if resolver == 'net/http'

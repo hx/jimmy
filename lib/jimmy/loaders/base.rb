@@ -5,6 +5,9 @@ module Jimmy
     # Base class for all file loaders
     # @abstract
     class Base
+      # Load the given file. Intended to be used by a {Jimmy::FileMap}.
+      # @api private
+      # @param [Pathname, String] file Path of the file to load
       def self.call(file)
         new(file).load
       end

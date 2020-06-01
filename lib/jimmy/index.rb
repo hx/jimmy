@@ -8,7 +8,7 @@ module Jimmy
   class Index
     include Enumerable
 
-    def initialize
+    def initialize # rubocop:disable Style/DocumentationMethod
       @by_uri = {}
     end
 
