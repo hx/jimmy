@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary               = 'Jimmy the Gem'
   spec.description           = 'Jimmy the Gem'
   spec.homepage              = 'https://github.com/hx/jimmy'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
 
   spec.metadata['homepage_uri']    = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage

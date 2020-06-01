@@ -86,8 +86,8 @@ module Jimmy
           j = Jimmy
           j.struct.require(
             id:  j.string.length(2..).email,
-            num: j.integer.range(4...10).multiple_of(2),
-            arr: j.array.count(3..4).items(j.string).unique_items
+            num: j.range(4...10).multiple_of(2),
+            arr: j.array.count(3..4).unique.items(j.string)
           ).nullable.not(false).allow(
             a_b: /foo/,
             ext: j.string.length(3),
@@ -95,12 +95,13 @@ module Jimmy
               [
                 j.boolean,
                 j.integer,
-                j.schema
+                j.range(1.0..)
               ]
             ),
             xyz: j.array.count(1..).items([j.integer], true),
-            all: j.schema.all_of([j.number, j.integer]),
-            one: j.schema.one_of([j.number, j.null])
+            all: j.all_of(j.number, j.integer),
+            one: j.one_of([j.number, j.null]),
+            pat: j.pattern(/pat/)
           )
             .property(
               /^\w+_id$/ => j.integer
@@ -170,7 +171,7 @@ module Jimmy
                 'items'    => [
                   { 'type' => 'boolean' },
                   { 'type' => 'integer' },
-                  true
+                  { 'type' => 'number', 'minimum' => 1 }
                 ]
               },
               'xyz' => {
@@ -184,6 +185,10 @@ module Jimmy
               },
               'one' => {
                 'oneOf' => [{ 'type' => 'number' }, { 'type' => 'null' }]
+              },
+              'pat' => {
+                'type'    => 'string',
+                'pattern' => 'pat'
               }
             },
             'patternProperties'    => {

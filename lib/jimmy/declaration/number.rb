@@ -17,11 +17,11 @@ module Jimmy
     # @return [self] self, for chaining
     def range(range)
       assert_range range
-      schema.minimum range.begin
-      unless range.end.nil?
-        schema.maximum range.end, exclusive: range.exclude_end?
+      schema do |s|
+        s.type range.begin.is_a?(Integer) ? 'integer' : 'number'
+        s.minimum range.begin
+        s.maximum range.end, exclusive: range.exclude_end? unless range.end.nil?
       end
-      self
     end
   end
 end

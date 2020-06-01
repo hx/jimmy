@@ -118,6 +118,7 @@ module Jimmy
     protected
 
     def schema
+      yield self if block_given?
       self
     end
   end

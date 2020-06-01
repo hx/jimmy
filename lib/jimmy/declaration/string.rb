@@ -30,8 +30,7 @@ module Jimmy
     # @return [self] self, for chaining
     def pattern(expression)
       assert_regexp expression
-      string
-      set pattern: expression.source
+      set(pattern: expression.source).string
     end
 
     FORMATS.each do |format|
