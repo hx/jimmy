@@ -2,6 +2,8 @@
 
 Version 2 of the Ruby gem for making JSON schemas the nice way.
 
+[![CircleCI](https://circleci.com/gh/hx/jimmy/tree/master.svg?style=svg)](https://circleci.com/gh/hx/jimmy)
+
 ## Installation
 
 Add this line to your application's Gemfile:
