@@ -9,7 +9,7 @@ Version 2 of the Ruby gem for making JSON schemas the nice way.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'jimmy', '~> 2.0.0-alpha.1'
+gem 'jimmy'
 ```
 
 And then execute:
@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-Check the [docs](https://rubydoc.info/gems/jimmy/2.0.0-alpha.1).
+Check the [docs](https://rubydoc.info/gems/jimmy).
 
 ## Development
 
