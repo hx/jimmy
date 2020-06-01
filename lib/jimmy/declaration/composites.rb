@@ -6,24 +6,24 @@ module Jimmy
     # @param [Array<Jimmy::Schema>] schemas The schemas to set as the value of
     #   +anyOf+.
     # @return [self] self, for chaining
-    def any_of(schemas)
-      set_composite 'anyOf', schemas
+    def any_of(*schemas)
+      set_composite 'anyOf', schemas.flatten
     end
 
     # Set the +allOf+ value for the schema.
     # @param [Array<Jimmy::Schema>] schemas The schemas to set as the value of
     #   +allOf+.
     # @return [self] self, for chaining
-    def all_of(schemas)
-      set_composite 'allOf', schemas
+    def all_of(*schemas)
+      set_composite 'allOf', schemas.flatten
     end
 
     # Set the +oneOf+ value for the schema.
     # @param [Array<Jimmy::Schema>] schemas The schemas to set as the value of
     #   +oneOf+.
     # @return [self] self, for chaining
-    def one_of(schemas)
-      set_composite 'oneOf', schemas
+    def one_of(*schemas)
+      set_composite 'oneOf', schemas.flatten
     end
 
     private

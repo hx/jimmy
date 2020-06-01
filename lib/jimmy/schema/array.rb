@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 module Jimmy
-  module Declaration
+  class Schema
     # Set whether the array value is required to have unique items.
     # @param [true, false] unique Whether the array value should have unique
     #   items.
@@ -91,5 +89,6 @@ module Jimmy
       end
       set items: cast_schema(schema)
     end
+
   end
 end

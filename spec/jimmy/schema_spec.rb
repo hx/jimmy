@@ -107,7 +107,7 @@ module Jimmy
                 .exclusive_minimum(0)
                 .exclusive_maximum(1000)
             )
-            .definitions(uuid: j.ref('uuid'))
+            .define(uuid: j.ref('uuid'))
             .property(:any, true, required: true)
             .description('test description')
             .read_only

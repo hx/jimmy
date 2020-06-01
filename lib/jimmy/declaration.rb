@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'jimmy/declaration/array'
 require 'jimmy/declaration/composites'
 require 'jimmy/declaration/number'
 require 'jimmy/declaration/object'
@@ -84,6 +83,8 @@ module Jimmy
     # @yieldparam schema [Jimmy::Schema] The defined schema.
     # @return [self] self, for chaining
     def define(name, schema = Schema.new, &block)
+      return definitions name, &block if name.is_a? Hash
+
       assign_to_schema_hash 'definitions', name, schema, &block
     end
 
