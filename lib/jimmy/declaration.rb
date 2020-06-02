@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'jimmy/declaration/composites'
+require 'jimmy/declaration/conditions'
 require 'jimmy/declaration/number'
 require 'jimmy/declaration/object'
 require 'jimmy/declaration/string'

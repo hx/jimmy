@@ -129,6 +129,7 @@ require 'jimmy/schema/number'
 require 'jimmy/schema/object'
 require 'jimmy/schema/string'
 
+require 'jimmy/schema/conditions'
 require 'jimmy/schema/operators'
 require 'jimmy/schema/json'
 require 'jimmy/schema/casting'

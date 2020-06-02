@@ -101,7 +101,12 @@ module Jimmy
             xyz: j.array.count(1..).items([j.integer], true),
             all: j.all_of(j.number, j.integer),
             one: j.one_of([j.number, j.null]),
-            pat: j.pattern(/pat/)
+            pat: j.pattern(/pat/),
+            seq: j.if(
+              j.object.allow(id: /@gmail\.com$/),
+              0...100,
+              1000...100_000
+            )
           )
             .property(
               /^\w+_id$/ => j.integer
@@ -116,6 +121,7 @@ module Jimmy
             .enum(Set.new [j.struct])
             .example('hello')
             .default({})
+            .if(true)
         end
 
         let :expected do
@@ -134,6 +140,7 @@ module Jimmy
               'uuid' => { '$ref' => 'uuid#' }
             },
             'default'              => {},
+            'if'                   => true,
             'additionalProperties' => false,
             'properties'           => {
               'id'  => {
@@ -189,6 +196,27 @@ module Jimmy
               'pat' => {
                 'type'    => 'string',
                 'pattern' => 'pat'
+              },
+              'seq' => {
+                'if'   => {
+                  'type'       => 'object',
+                  'properties' => {
+                    'id' => {
+                      'type'    => 'string',
+                      'pattern' => '@gmail\\.com$'
+                    }
+                  }
+                },
+                'then' => {
+                  'type'             => 'integer',
+                  'minimum'          => 0,
+                  'exclusiveMaximum' => 100
+                },
+                'else' => {
+                  'type'             => 'integer',
+                  'minimum'          => 1000,
+                  'exclusiveMaximum' => 100_000
+                }
               }
             },
             'patternProperties'    => {
