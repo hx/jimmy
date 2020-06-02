@@ -113,7 +113,7 @@ module Jimmy
             .description('test description')
             .read_only
             .write_only(false).write_only
-            .enum([j.struct])
+            .enum(Set.new [j.struct])
             .example('hello')
             .default({})
         end

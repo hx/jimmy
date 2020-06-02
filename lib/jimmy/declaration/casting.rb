@@ -7,8 +7,8 @@ module Jimmy
     CASTS = {
       TrueClass  => ->(s, _) { s },
       FalseClass => ->(s, _) { s.nothing },
-      Regexp     => ->(s, v) { s.string.pattern v },
-      Range      => ->(s, v) { s.number.range v }
+      Regexp     => ->(s, v) { s.pattern v },
+      Range      => ->(s, v) { s.range v }
     }.freeze
 
     CASTABLE_CLASSES = CASTS.keys.freeze

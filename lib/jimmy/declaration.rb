@@ -60,9 +60,10 @@ module Jimmy
     end
 
     # Set an enum value for the schema.
-    # @param [Array] allowed_values The allowed values in the enum.
+    # @param [Array, Set] allowed_values The allowed values in the enum.
     # @return [self] self, for chaining
     def enum(allowed_values)
+      allowed_values = allowed_values.to_a if allowed_values.is_a? Set
       assert_array allowed_values, minimum: 1, unique: true
       set enum: allowed_values
     end
