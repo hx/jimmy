@@ -29,7 +29,7 @@ module Jimmy
       @options[:ref_resolver] = res
     end
 
-    # Get an instance of {JSONSchemer::Schema::Base} that can be used to
+    # Get an instance of +JSONSchemer::Schema::Base+ that can be used to
     # validate JSON documents against the given {Schema}.
     # @return [JSONSchemer::Schema::Base]
     def schemer

@@ -18,7 +18,7 @@ module Jimmy
     SchemerFactory.new(*args, **opts).schemer
   end
 
-  # Passes +schema+ to {Schema.new}, unless it is already a {Schema}, in which
+  # Passes +schema+ to +Schema.new+, unless it is already a {Schema}, in which
   # case it is returned unmodified.
   # @param [Schema, Object] schema
   # @return [Schema]
