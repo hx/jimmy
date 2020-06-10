@@ -67,6 +67,20 @@ module Jimmy
         self
       end
 
+      # Duplicate the collection.
+      # @return [Jimmy::Json::Collection]
+      def dup
+        self.class.new @members
+      end
+
+      # Duplicate the collection and all of its members, recursively.
+      # @return [Jimmy::Json::Collection]
+      def deep_dup(index = {})
+        return index[object_id] if index.key? object_id
+
+        deep_dup_enumerable(self, index) { |new, k, v| new[k] = v }
+      end
+
       protected
 
       def cast_value(value)
@@ -81,6 +95,18 @@ module Jimmy
 
           value.as_json
         end
+      end
+
+      def deep_dup_value(value = self, index = {})
+        return value.deep_dup(index) if value.is_a? Collection
+
+        value.dup
+      end
+
+      def deep_dup_enumerable(value, index)
+        index[value.object_id] = new = value.class.new
+        value.each { |*args, v| yield new, *args, deep_dup_value(v, index) }
+        new
       end
     end
   end

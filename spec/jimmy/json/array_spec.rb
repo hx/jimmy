@@ -40,5 +40,12 @@ module Jimmy
         expect { subject.dig :'0' }.to raise_error /Invalid array index/
       end
     end
+
+    describe '#concat' do
+      it 'accepts sets' do
+        arr = described_class.new
+        expect { arr.concat Set.new([1, 2]) }.to change { arr.length }.by 2
+      end
+    end
   end
 end

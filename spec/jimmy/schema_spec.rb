@@ -241,6 +241,12 @@ module Jimmy
           errors  = schemer.validate(actual.as_json).to_a
           expect(errors).to be_empty
         end
+
+        it 'duplicates identically' do
+          duplicate = actual.deep_dup
+          expect(duplicate).not_to be actual
+          expect(duplicate.as_json).to eq expected
+        end
       end
 
       describe 'array items' do
@@ -318,6 +324,36 @@ module Jimmy
             'a' => { '$ref' => '#/definitions/foo' },
             'b' => { '$ref' => '#/definitions/foo' }
           }
+      end
+
+      it 'does not re-require something that is already required' do
+        schema = Jimmy.struct.require(foo: /bar/)
+        expect { schema.require :foo }.not_to change { schema[:required] }
+      end
+
+      describe 'duplication' do
+        it 'can duplicate a nothing' do
+          original = Jimmy.nothing
+          duplicate = original.dup
+          expect(original).not_to be duplicate
+          expect(duplicate).to be_nothing
+        end
+
+        it 'can shallow-duplicate' do
+          original = Jimmy.struct.require(foo: /bar/)
+          duplicate = original.dup
+          expect { duplicate.require bar: /foo/ }
+            .to change { original.as_json['required'] }.to %w[foo bar]
+        end
+
+        it 'can deep-duplicate even with recursive referencing' do
+          original = Jimmy.struct
+          original.require child: original
+          original.allow parent: original | Jimmy.null
+          duplicate = original.deep_dup
+          expect(original).not_to be duplicate
+          expect(original.as_json).to eq duplicate.as_json
+        end
       end
 
       describe 'string patterns' do

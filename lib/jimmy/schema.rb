@@ -115,6 +115,19 @@ module Jimmy
       PROPERTY_SEQUENCE.fetch(key) { raise KeyError, 'Not a valid schema key' }
     end
 
+    # Duplicate the schema with a shallow copy. Collections like properties,
+    # enum, etc, will be shared with the duplicate.
+    # @return [Jimmy::Json::Schema]
+    def dup
+      nothing? ? self.class.new.nothing : super
+    end
+
+    # Duplicate the schema.
+    # @return [Jimmy::Json::Schema]
+    def deep_dup(*)
+      nothing? ? self.class.new.nothing : super
+    end
+
     protected
 
     def schema

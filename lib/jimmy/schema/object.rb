@@ -58,7 +58,9 @@ module Jimmy
         if name.is_a? Hash
           self.properties name, required: true, &block
         else
-          getset('required') { Set.new } << validate_property_name(name)
+          arr  = getset('required') { [] }
+          name = validate_property_name(name)
+          arr << name unless arr.include? name
         end
       end
       self

@@ -35,6 +35,13 @@ module Jimmy
 
       alias << push
 
+      # Assign a member to the array at the given index.
+      # @param [Integer] index
+      # @param [Object] value
+      def []=(index, value)
+        @members[index] = cast_value(value)
+      end
+
       # Iterate over items in the array. If a block with a single argument is
       # given, only values will be yielded. Otherwise, indexes and values will
       # be yielded.
@@ -74,6 +81,13 @@ module Jimmy
 
       alias count length
       alias size length
+
+      # Returns true if the array contains the given +obj+.
+      # @param [Object] obj
+      # @return [true, false]
+      def include?(obj)
+        @members.include? obj
+      end
 
       protected
 
