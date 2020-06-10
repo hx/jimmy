@@ -291,12 +291,6 @@ module Jimmy
           .to raise_error /Expected 'foo' to be an existing property/
       end
 
-      it 'does not allow reassignment of definitions' do
-        subject.define 'uuid', true
-        expect { subject.define 'uuid', true }
-          .to raise_error "Property 'definitions' already has a member 'uuid'"
-      end
-
       it 'yields schemas when making a single definition' do
         subject.define :id, &:integer
         expect(subject.dig('definitions', 'id', 'type')).to eq 'integer'

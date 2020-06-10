@@ -127,10 +127,7 @@ module Jimmy
       property_name = cast_key(property_name)
       key           = cast_key(key)
       hash          = getset(property_name) { {} }
-      assert !hash.key?(key) do
-        "Property '#{property_name}' already has a member '#{key}'"
-      end
-      schema = cast_schema(schema)
+      schema        = cast_schema(schema)
       yield schema if block_given?
       hash[key] = schema
       self
